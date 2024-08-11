@@ -14,7 +14,7 @@ const UserPrivate = () => {
     const authCheck = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8080/api/v2/auth/userAuth",
+          `${url}/api/v2/auth/userAuth`,
           {
             headers:{
               Authorization:auth?.token,

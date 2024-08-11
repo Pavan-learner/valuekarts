@@ -14,7 +14,7 @@ const Admin_Private = () => {
     const authCheck = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8080/api/v2/auth/adminAuth",
+          `${url}/api/v2/auth/adminAuth`,
           {
             headers:{
               Authorization:auth?.token,

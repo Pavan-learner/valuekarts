@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { Auth_Spinner } from "../Loading/Auth_Spinner";
 import axios from "axios";
-
+import { url } from "../backend_link/data";
 
 const UserPrivate = () => {
 

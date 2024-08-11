@@ -1,0 +1,5 @@
+// * These is for Forgot Password
+  question: {
+    type: String,
+    required: true,
+  },

@@ -178,7 +178,7 @@ const Signup = () => {
                                 e.target.value.startsWith("+91") ||
                                 e.target.value.startsWith("91")
                               ) {
-                                setMail("");
+                                setMail(null);
                                 setPhone(e.target.value);
                                 setNumber(true);
                               }

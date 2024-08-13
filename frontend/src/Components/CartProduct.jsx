@@ -16,7 +16,7 @@ const CartProduct = ({ prod }) => {
           <div className="me-lg-5">
             <div className="d-flex">
               <img
-                src={prod.imgLink[2]}
+                src={prod.imgLink[0]}
                 className="border rounded me-3"
                 style={{ width: "96px", height: "96px" }}
               />

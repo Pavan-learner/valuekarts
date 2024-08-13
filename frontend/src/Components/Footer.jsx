@@ -26,7 +26,9 @@ const Footer = () => {
             <div className="float-md-end">
               <Link to = {'/dev'} className="btn btn-icon btn-light text-secondary px-3 borde m-2" title="Facebook" target="_blank" href="#"><i
                   className="fab fa-facebook-f fa-lg"></i></Link>
-              <Link to = {'/dev'} className="btn btn-icon btn-light text-secondary px-3 border m-2" title="Instagram" target="_blank" href="#"><i
+              <Link to = {'https://www.instagram.com/monoking.in?igsh=MW4zM2t4NWJiOWcyNw=='} className="btn btn-icon  text-secondary px-3 border m-2" title="Instagram" target="_blank" style={{
+                color:"red"
+              }}><i
                   className="fab fa-instagram fa-lg"></i></Link>
               <Link to = {'/dev'} className="btn btn-icon btn-light text-secondary px-3 border m-2" title="Youtube" target="_blank" href="#"><i
                   className="fab fa-youtube fa-lg"></i></Link>

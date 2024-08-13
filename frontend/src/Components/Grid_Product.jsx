@@ -32,7 +32,7 @@ const Grid_Product = ({ item }) => {
           <div className="my-card-img-container">
             <Link to={`/product/${item._id}`}>
               <img
-                src={item.imgLink[2]}
+                src={item.imgLink[0]}
                 className="card-img-top rounded-2  w-100 h-100 img-fluid"
                 style={{
                   objectFit: "cover",

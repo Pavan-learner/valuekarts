@@ -58,7 +58,7 @@ const Labour_Card = ({item}) => {
             />
           </Link>
           <div className="card-body p-0 pt-2">
-            <h5 className="card-title fw-bold">Rs.{item.rate}</h5>
+            {/* <h5 className="card-title fw-bold">Rs.{item.rate}</h5> */}
             <p className="card-text mb-0">{item.pname}</p>
             {/* <p>Details: {item.description}</p> */}
 

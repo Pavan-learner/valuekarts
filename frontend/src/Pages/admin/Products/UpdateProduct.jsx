@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate,useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Admin_Header from "../Components/Admin_Header";
 import axios from "axios";
 import { url } from "../../../Components/backend_link/data";
@@ -9,22 +9,20 @@ import Backbutton from '../../../Components/Backbutton';
 
 const UpdateProduct = () => {
   const params = useParams();
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [category, setCategory] = useState([]);
   const [name, setName] = useState("");
-  const [categoryValue, setCategory2] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
   const [photo, setPhoto] = useState(null);
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [qty, setqty] = useState("");
-  const [shipping, setShipping] = useState(false);
+  const [stock, setStock] = useState("");
+  const [shipping, setShipping] = useState('');
   const [imageLinks, setImageLinks] = useState([""]);
+  const [variety, setVariety] = useState([""]);
 
   const auth = useSelector((state) => state.auth);
-
   const [loading, setLoading] = useState(false);
-
-  console.log(params.id)
 
   const handleImageLinkChange = (index, value) => {
     const updatedLinks = [...imageLinks];
@@ -37,14 +35,12 @@ const navigate = useNavigate();
   };
 
   const removeImageLinkField = (index) => {
+    if (index === 0 && imageLinks.length === 1) return; // Prevent removal if it's the only field
     const updatedLinks = imageLinks.filter((_, i) => i !== index);
     setImageLinks(updatedLinks);
   };
 
-
-   // * this object is used to store the existing product data
-   const [product, setProduct] = useState({});
-
+  const [product, setProduct] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,10 +52,11 @@ const navigate = useNavigate();
       productData.append("category", categoryValue);
       productData.append("price", price);
       productData.append("description", description);
-      productData.append("qty", qty);
+      productData.append("stock", stock);
       productData.append("shipping", shipping);
-      productData.append("photo", photo);
+      if (photo) productData.append("photo", photo);
       productData.append("imgLink", JSON.stringify(imageLinks));
+      productData.append("variety", JSON.stringify(variety));
 
       const res = await axios.put(
         `${url}/api/v2/products/update-product/${params.id}`,
@@ -84,6 +81,7 @@ const navigate = useNavigate();
       }
     } catch (error) {
       console.log(error);
+      toast.error("Failed to update product");
       setLoading(false);
     }
   };
@@ -91,10 +89,7 @@ const navigate = useNavigate();
   const getCategories = async () => {
     try {
       const res = await axios.get(`${url}/api/v2/category/get-categories`);
-
       setCategory(res.data.data);
-      //   console.log(res.data.data);
-      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -102,8 +97,7 @@ const navigate = useNavigate();
 
   useEffect(() => {
     getCategories();
-  }, [params.id]);
-
+  }, []);
 
   const findProduct = async () => {
     try {
@@ -113,7 +107,6 @@ const navigate = useNavigate();
         },
       });
       setProduct(res.data.pd);
-      // console.log(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -126,25 +119,42 @@ const navigate = useNavigate();
   useEffect(() => {
     if (product) {
       setName(product.name || '');
-      setCategory2(product.category?._id || '');
+      setCategoryValue(product.category?._id || '');
       setDescription(product.description || '');
       setPrice(product.price || '');
-      setqty(product.qty || '');
-      setShipping(product.shipping || false);
-      setImageLinks(product.imgLink || []);
+      setStock(product.stock || '');
+      setShipping(product.shipping || '');
+      setImageLinks(product.imgLink || ['']);
+      setVariety(product.variety || ['']);
     }
   }, [product]);
 
+  const handleVarietyChange = (index, value) => {
+    const newVariety = [...variety];
+    newVariety[index] = value;
+    setVariety(newVariety);
+  };
+
+  const addVarietyField = () => {
+    setVariety([...variety, ""]);
+  };
+
+  const removeVarietyField = (index) => {
+    if (index === 0 && variety.length === 1) return; // Prevent removal if it's the only field
+    const newVariety = variety.filter((_, i) => i !== index);
+    setVariety(newVariety);
+  };
+
   return (
     <>
-      <Admin_Header/>
+      <Admin_Header />
 
       <div className="w-75 mx-auto mb-5 mt-5">
-      <Backbutton path = {'/dashboard/admin/product-list'}/>
+        <Backbutton path='/dashboard/admin/product-list' />
         <h1 className="text-center mb-4">Update Product</h1>
         <span>
           <Link to="/dashboard/admin/products">
-            <button className="btn btn-primary mb-3 ">See All</button>
+            <button className="btn btn-primary mb-3">See All</button>
           </Link>
         </span>
         <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
@@ -163,7 +173,7 @@ const navigate = useNavigate();
             <select
               className="form-select"
               value={categoryValue}
-              onChange={(e) => setCategory2(e.target.value)}
+              onChange={(e) => setCategoryValue(e.target.value)}
             >
               <option>Select Category</option>
               {category.map((c) => (
@@ -178,7 +188,6 @@ const navigate = useNavigate();
             <label className="form-label">Upload Image</label>
             <input
               type="file"
-              name="photo"
               accept="image/*"
               className="form-control"
               onChange={(e) => setPhoto(e.target.files[0])}
@@ -220,33 +229,60 @@ const navigate = useNavigate();
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Product Quantity</label>
+            <label className="form-label">Product Stock</label>
             <input
               type="number"
               className="form-control"
-              value={qty}
-              onChange={(e) => setqty(e.target.value)}
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
             />
           </div>
 
-          <div className="mb-3 form-check">
+          <div className="mb-3">
+            <label className="form-label">Shipping Details</label>
             <input
-              type="checkbox"
-              className="form-check-input"
-              id="shippingCheck"
-              checked={shipping}
-              onChange={(e) => setShipping(e.target.checked)}
+              type="text"
+              className="form-control"
+              value={shipping}
+              onChange={(e) => setShipping(e.target.value)}
             />
-            <label className="form-check-label" htmlFor="shippingCheck">
-              Shipping Available
-            </label>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Variety</label>
+            {variety.map((item, index) => (
+              <div key={index} className="mb-3 d-flex align-items-center">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={item}
+                  onChange={(e) => handleVarietyChange(index, e.target.value)}
+                  placeholder={`Variety ${index + 1}`}
+                />
+                {index > 0 && (
+                  <button
+                    type="button"
+                    className="btn btn-danger ms-2"
+                    onClick={() => removeVarietyField(index)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={addVarietyField}
+            >
+              Add Another Variety
+            </button>
           </div>
 
           <div className="mb-3">
             <label className="form-label">Additional Image Links</label>
             {imageLinks.map((link, index) => (
-              index !== 0 && (
-                <div key={index} className="mb-3 d-flex align-items-center">
+              <div key={index} className="mb-3 d-flex align-items-center">
                 <input
                   type="text"
                   className="form-control"
@@ -264,7 +300,6 @@ const navigate = useNavigate();
                   </button>
                 )}
               </div>
-              )
             ))}
             <button
               type="button"
@@ -291,7 +326,7 @@ const navigate = useNavigate();
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UpdateProduct
+export default UpdateProduct;

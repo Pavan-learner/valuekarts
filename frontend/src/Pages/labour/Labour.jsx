@@ -33,7 +33,7 @@ const Labour = () => {
     {
       id: 2003,
       imgSrc: "https://media.istockphoto.com/id/1365364856/photo/smiling-plumber-with-pipe-and-plumbing-tool-in-hand-showing-thumb-by-looking-at-camera.webp?b=1&s=170667a&w=0&k=20&c=JOJA4pzUt_blMG_C7mCw9vPaEaeX8jEMC1nVC2kzUuQ=",
-      pname:"Painer",
+      pname:"Painter",
       rate:'1000/per day',
     },
 

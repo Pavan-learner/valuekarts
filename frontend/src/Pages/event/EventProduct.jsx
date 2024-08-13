@@ -13,6 +13,8 @@ const EventProduct = ({ item }) => {
   const events = useSelector((state) => state.cart.events);
   const [startDate, setStartDate] = useState(new Date());
 
+  const [selectedDate, setselectedDate] = useState(new Date());
+
   const auth = useSelector((state) => state.auth);
 
   // * for showing pop up model
@@ -36,6 +38,8 @@ const EventProduct = ({ item }) => {
     toast.success("Your Event is removed from cart");
   };
 
+
+  console.log(selectedDate);
   return (
     <>
       <div className="col-lg-3 col-md-6 col-sm-12 my-card-2" key={item.id}>
@@ -53,11 +57,14 @@ const EventProduct = ({ item }) => {
             <p className="card-text mb-0">{item.pname}</p>
             {/* <p>Details: {item.description}</p> */}
 
-            <div className="d-flex align-items-center mb-2">
+            <div className="d-flex align-items-center mb-2 mt-2">
             <label className="me-2 fw-bold">Select Date:</label>
             <DatePicker
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => {
+                setStartDate(date)
+                setselectedDate(date)
+              }}
               className="form-control datepicker-responsive"
               dateFormat="dd/MM/yyyy"
               placeholderText="Select a date"
@@ -106,7 +113,7 @@ const EventProduct = ({ item }) => {
                 <button className="btn btn-light m-1 fw-bold custom-button" onClick={handleShow}>
                   Book Now
                 </button>
-                {showModal && <PopUp show={showModal} handleClose={handleClose} />}
+                {showModal && <PopUp show={showModal} date = {selectedDate} handleClose={handleClose} />}
               </>
             ) : (
               <button className="btn btn-light m-1 fw-bold custom-button" disabled onClick={handleShow}>

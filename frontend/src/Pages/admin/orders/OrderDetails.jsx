@@ -65,7 +65,7 @@ const OrderDetail = () => {
     <div>
       <Admin_Header />
       <div className="container mt-5">
-        <h1 className="text-center mb-4">Order Details</h1>
+        <h1 className="text-center mb-4 mt-5">Order Details</h1>
         <div className="card p-4">
           <h4>Order ID: {order._id}</h4>
           <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleString()}</p>

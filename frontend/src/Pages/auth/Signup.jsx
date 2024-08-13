@@ -111,6 +111,7 @@ const Signup = () => {
     }
   };
 
+  
   return (
     <>
       {loading ? (
@@ -131,7 +132,7 @@ const Signup = () => {
                   </p>
 
                   <img
-                    src="https://monoking.s3.ap-southeast-2.amazonaws.com/signup.webp"
+                    src="/public/assets/signup.webp"
                     className="signup-img"
                     alt=""
                   />

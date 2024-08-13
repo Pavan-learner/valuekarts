@@ -9,7 +9,7 @@ export const Auth_Spinner = (path = 'login') => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [count, setCount] = useState(5)
+    const [count, setCount] = useState(2)
 
     useEffect(() => {
         const intervel = setInterval(() => {

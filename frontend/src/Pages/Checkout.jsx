@@ -47,6 +47,8 @@ const Checkout = () => {
 
   const [value, setValue] = useState("");
 
+  const [mail, setMail] = useState('')
+
   useEffect(() => {
     setTotal(
       cartItems.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0)
@@ -113,7 +115,8 @@ const Checkout = () => {
         `${url}/api/v2/auth/update-user/${auth.user._id}`,
         {
           address: data.address,
-          phone: data.phone
+          phone: data.phone,
+          email: data.email
         },
         {
           headers: {
@@ -179,7 +182,8 @@ const Checkout = () => {
     // * this data is passed because we need to update the user profile.
     let data  = {
       address:address,
-      phone:phone
+      phone:phone,
+      email:mail
     }
     updateProfile(data);
 
@@ -204,7 +208,7 @@ const Checkout = () => {
         dispatch(clearBuy());
         await sendMail({
           name: auth.user.name,
-          email: auth.user.email,
+          email: auth.user.email || mail,
           address: address || newAddress,
           phone: phone,
           products: mailItems,
@@ -314,9 +318,9 @@ const Checkout = () => {
                                     className="form-control"
                                     placeholder="Enter new Address"
                                     aria-label="Your Address"
-                                    value={newAddress}
+                                    value={address}
                                     onChange={(e) =>
-                                      setNewAddress(e.target.value)
+                                      setAddress(e.target.value)
                                     }
                                   />
                                 </div>
@@ -351,6 +355,21 @@ const Checkout = () => {
                                 />
                               </div>
                             )}
+
+                            {
+                              (auth?.user.email === null) && (
+                                <div className="form-group mb-4">
+                                <input
+                                  type="email"
+                                  className="form-control"
+                                  placeholder="Enter your Email"
+                                  aria-label="mail"
+                                  value={mail}
+                                  onChange={(e) => setMail(e.target.value)}
+                                />
+                              </div>
+                              )
+                            }
 
                             <h4 className="mt-4">Payment</h4>
                             <div className="form-check">

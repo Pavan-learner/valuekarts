@@ -6,7 +6,7 @@ const CheckoutProduct = ({prod}) => {
     <>
       <ul className="list-group mb-3">
         <li className="list-group-item d-flex justify-content-between">
-          <img src={prod.imgLink[2]} alt=""  style={{
+          <img src={prod.imgLink[0]} alt=""  style={{
             width: "100px",
             height: "100px",
             objectFit: "contain",

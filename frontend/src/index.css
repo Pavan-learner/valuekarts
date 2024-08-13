@@ -44,49 +44,8 @@
   
 
   /* Responsive datepicker */
+ 
   
-  .datepicker-responsive {
-    width: 100%;
-    max-width: 100%;
-    z-index: 1050; /* Adjust z-index value as needed */
-  }
-  
-  .react-datepicker {
-    width: 100%;
-    max-width: 300px;
-    z-index: 1050;
-  }
-  
-  .react-datepicker__month-container {
-    max-width: 100%;
-  }
-  
-  @media (max-width: 767px) {
-    .datepicker-responsive {
-      font-size: 14px;
-      z-index: 2000; /* Higher z-index for mobile screens */
-    }
-  
-    .react-datepicker {
-      width: 100%;
-      max-width: 100%;
-      z-index: 2000 !important;
-    }
-  
-    .react-datepicker__month-container {
-      width: 100%;
-      max-width: 100%;
-    }
-  
-    .react-datepicker__header {
-      padding: 8px;
-    }
-  
-    .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-      width: 2rem;
-      line-height: 2rem;
-    }
-  }
     /* Custom styling for the product details page */
 
     

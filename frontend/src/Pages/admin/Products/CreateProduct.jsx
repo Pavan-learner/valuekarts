@@ -16,10 +16,11 @@ const CreateProduct = () => {
   const [photo, setPhoto] = useState(null);
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [qty, setqty] = useState("");
-  const [shipping, setShipping] = useState(false);
+  const [stock, setStock] = useState();
+  const [shipping, setShipping] = useState('');
   const [imageLinks, setImageLinks] = useState([""]);
-
+  const [variety, setVariety] = useState([""]);
+  
  
 
 
@@ -46,19 +47,25 @@ const CreateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
     try {
       const productData = new FormData();
 
+
+  
       productData.append("name", name);
       productData.append("category", categoryValue);
       productData.append("price", price);
       productData.append("description", description);
-      productData.append("qty", qty);
+      productData.append("stock", stock);
       productData.append("shipping", shipping);
       productData.append("photo", photo);
       productData.append("imgLink", JSON.stringify(imageLinks));
+      productData.append("variety", JSON.stringify(variety));
 
+      console.log(productData)
+  
       const res = await axios.post(
         `${url}/api/v2/products/create-product`,
         productData,
@@ -69,7 +76,7 @@ const CreateProduct = () => {
           },
         }
       );
-
+  
       if (res.data.success) {
         setTimeout(() => {
           navigate("/dashboard/admin/product-list");
@@ -81,10 +88,11 @@ const CreateProduct = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   };
+  
 
   const getCategories = async () => {
     try {
@@ -101,6 +109,22 @@ const CreateProduct = () => {
   useEffect(() => {
     getCategories();
   }, []);
+
+
+  const handleVarietyChange = (index, value) => {
+    const newVariety = [...variety];
+    newVariety[index] = value;
+    setVariety(newVariety);
+  };
+  
+  const addVarietyField = () => {
+    setVariety([...variety, ""]);
+  };
+  
+  const removeVarietyField = (index) => {
+    const newVariety = variety.filter((_, i) => i !== index);
+    setVariety(newVariety);
+  };
 
   return (
     <>
@@ -185,21 +209,52 @@ const CreateProduct = () => {
             <input
               type="number"
               className="form-control"
-              onChange={(e) => setqty(e.target.value)}
+              onChange={(e) => setStock(e.target.value)}
             />
           </div>
 
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="shippingCheck"
-              onChange={(e) => setShipping(e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="shippingCheck">
-              Shipping Available
+          <div className="mb-3">
+          <label className="form-label">
+              Shipping Details
             </label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => setShipping(e.target.value)}
+            />
+            
           </div>
+
+          <div className="mb-3">
+      <label className="form-label">Variety</label>
+      {variety.map((item, index) => (
+        <div key={index} className="mb-3 d-flex align-items-center">
+          <input
+            type="text"
+            className="form-control"
+            value={item}
+            onChange={(e) => handleVarietyChange(index, e.target.value)}
+            placeholder={`Variety ${index + 1}`}
+          />
+          {index > 0 && (
+            <button
+              type="button"
+              className="btn btn-danger ms-2"
+              onClick={() => removeVarietyField(index)}
+            >
+              Remove
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={addVarietyField}
+      >
+        Add Another Variety
+      </button>
+    </div>
 
           <div className="mb-3">
             <label className="form-label">Additional Image Links</label>

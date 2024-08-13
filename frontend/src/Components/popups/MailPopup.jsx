@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-const PopUp = ({ show, handleClose,date }) => {
+const MailPopup = ({ show, handleClose,date }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
@@ -46,7 +46,7 @@ const PopUp = ({ show, handleClose,date }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Please fill the form</Modal.Title>
+        <Modal.Title>Please provide the details below</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -100,4 +100,4 @@ const PopUp = ({ show, handleClose,date }) => {
   );
 };
 
-export default PopUp;
+export default MailPopup;

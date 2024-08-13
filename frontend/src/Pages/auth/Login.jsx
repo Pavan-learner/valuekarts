@@ -129,7 +129,7 @@ const Login = () => {
                     Welcome Back – Ready to Shop?
                   </h2>
                   <img
-                    src="https://monoking.s3.ap-southeast-2.amazonaws.com/login.webpp"
+                    src="https://monoking.s3.ap-southeast-2.amazonaws.com/login.webp"
                     alt="Login"
                     className="signup-img img-fluid"
                   />

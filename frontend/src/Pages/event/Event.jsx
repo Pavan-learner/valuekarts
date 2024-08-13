@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../Components/Loading/Loader";
 import Backbutton from "../../Components/Backbutton";
 import EventProduct from "./EventProduct";
+import axios from "axios";
+import { url } from "../../Components/backend_link/data";
 
 
 const Event = () => {
+
+  const [loading, setloading] = useState(false);
+  const [Book, setBook] = useState(false);
+
+  const [events, setEvents] = useState([])
+
  
 
   // connt events useSelector((state.))
@@ -32,64 +40,23 @@ const Event = () => {
     // Add more products as needed
   ];
 
-  const worksImg = [
-    {
-      id: 1,
-      imgSrc: "https://media.istockphoto.com/id/1355181189/photo/wedding-detail-decoration-flowers-background.webp?b=1&s=170667a&w=0&k=20&c=aC_JeWBU7kc2Z9TsvKTqp-N_hsN427YZaO2lnY_Y6Kc=",
-      pname:"Best Flower Decoration",
-      rate:2999,
-      period:null
-    },
+ 
 
-    {
-      id: 2,
-      imgSrc: "https://media.istockphoto.com/id/1405876768/photo/decoration-for-a-childrens-party.webp?b=1&s=170667a&w=0&k=20&c=KBH2D_l_9oUHA1NkKvUlgx2Se9qqvaYgHkdzbVXNAbk=",
-      pname:"Best Flower Decoration",
-      rate:2999   
-    },
+  useEffect(() => {
+    fetchEvents()
+  }, [])
+  
 
-    {
-      id: 3,
-      imgSrc: "https://media.istockphoto.com/id/1280479844/photo/marigold-flower-rangoli-design-for-diwali-festival-indian-festival-flower-decoration.webp?b=1&s=170667a&w=0&k=20&c=reowSmq5yqLBJhuXxN2EUscwMxsMVWz4258T7aTDbxQ=",
-      pname:"Best Flower Decoration",
-      rate:2999   
-    },
+  const fetchEvents = async() =>{
 
-    {
-      id: 5,
-      imgSrc: "https://media.istockphoto.com/id/1163718652/photo/delicious-wedding-reception-birthday-cake-on-a-background-balloons-party-decor-copy-space.webp?b=1&s=170667a&w=0&k=20&c=g9JbMT9lYn9KbVmTnCBC3LEGz6cLVpQe3LXuJceVe5o=",
-      pname:"Best Flower Decoration",
-      rate:2999   
-    },
-
-    {
-      id: 6,
-      imgSrc: "https://media.istockphoto.com/id/1355181189/photo/wedding-detail-decoration-flowers-background.webp?b=1&s=170667a&w=0&k=20&c=aC_JeWBU7kc2Z9TsvKTqp-N_hsN427YZaO2lnY_Y6Kc=",
-      pname:"Best Flower Decoration",
-      rate:2999   
-    },
-
-    {
-      id: 7,
-      imgSrc: "https://media.istockphoto.com/id/1405876768/photo/decoration-for-a-childrens-party.webp?b=1&s=170667a&w=0&k=20&c=KBH2D_l_9oUHA1NkKvUlgx2Se9qqvaYgHkdzbVXNAbk=",
-      pname:"Best Flower Decoration",
-      rate:2999   
-    },
-    {
-      id: 7,
-      imgSrc: "https://media.istockphoto.com/id/1405876768/photo/decoration-for-a-childrens-party.webp?b=1&s=170667a&w=0&k=20&c=KBH2D_l_9oUHA1NkKvUlgx2Se9qqvaYgHkdzbVXNAbk=",
-      pname:"Best Flower Decoration",
-      rate:2999   
-    },    {
-      id: 7,
-      imgSrc: "https://media.istockphoto.com/id/1405876768/photo/decoration-for-a-childrens-party.webp?b=1&s=170667a&w=0&k=20&c=KBH2D_l_9oUHA1NkKvUlgx2Se9qqvaYgHkdzbVXNAbk=",
-      pname:"Best Flower Decoration",
-      rate:2999   
+    try {
+      const res = await axios.get(`${url}/api/v2/event/get-events`);
+      setEvents(res.data.events);
+      console.log(res.data.events);
+    } catch (error) {
+      console.log(error);
     }
-  ];
-
-  const [loading, setloading] = useState(false);
-  const [Book, setBook] = useState(false);
+  }
 
   const handelBook = (e) => {
     e.preventDefault();
@@ -163,8 +130,8 @@ const Event = () => {
           <div className="container mb-5">
             <div className="row justify-content-center">
              {
-              worksImg.map((item) =>{
-                return <EventProduct item = {item} key = {item.id}/>
+              events.map((item) =>{
+                return <EventProduct item = {item} key = {item._id}/>
               })
              }
             </div>

@@ -52,7 +52,7 @@ const Footer = () => {
             <br />  
             <p>
                 <strong> © 2024 Copyright: SpotMarket.com</strong>
-                <img src="/src/assets/logo.webp" alt=""  style={{
+                <img src="https://monokingproducts.s3.ap-southeast-2.amazonaws.com/logo_03.png" alt=""  style={{
                   width: "10vw",
                   alignContent: "center",
                 }}/>

@@ -32,14 +32,16 @@ import DeleteCategory from "./Pages/admin/Cateogry/DeleteCategory";
 import OrderList from "./Pages/admin/orders/OrderList";
 import DeleteProduct from "./Pages/admin/Products/DeleteProduct";
 import UpdateProduct from "./Pages/admin/Products/UpdateProduct";
+import Labour from "./Pages/labour/Labour";
+import SearchPage from "./Pages/SearchPage";
+import OrderDetail from "./Pages/admin/orders/OrderDetails";
+import EventList from "./Pages/admin/events/EventList";
+import CreateEvent from "./Pages/admin/events/CreateEvent";
+import UpdateEvent from "./Pages/admin/events/UpdateEvent";
 
 import { useDispatch } from "react-redux";
 import { setAuth } from "./State/auth_action";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Labour from "./Pages/labour/Labour";
-import SearchPage from "./Pages/SearchPage";
-import OrderDetail from "./Pages/admin/orders/OrderDetails";
-
 
 
 function App() {
@@ -126,6 +128,12 @@ function App() {
               // ! Orders
               <Route path = 'admin/orders' element = {<OrderList/>}/>
               <Route path = 'admin/orders/order-detail/:id' element = {<OrderDetail/>} />
+
+
+              // ! Event
+              <Route path = 'admin/create-event' element = {<CreateEvent/>}/>
+              <Route path = 'admin/event-list' element = {<EventList/>} />
+              <Route path = 'admin/update-event/:id' element = {<UpdateEvent/>} />
 
             </Route>
 

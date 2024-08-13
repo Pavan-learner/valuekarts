@@ -27,22 +27,22 @@ const Grid_Product = ({ item }) => {
 
   return (
     <>
-      <div className="col-lg-4 col-md-6 col-sm-6 d-flex">
+      <div className="col-lg-4 col-md-6 col-sm-6 d-flex my-card-2">
         <div className="card w-100 my-2 shadow-2-strong">
           <div className="my-card-img-container">
-            <Link to={`/product/${item._id}`}>
+            {item.imgLink && (
               <img
                 src={item.imgLink[0]}
-                className="card-img-top rounded-2  w-100 h-100 img-fluid"
+                alt={item.name}
+                className="card-img-top rounded-2 p-1 w-100"
                 style={{
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  maxWidth: "100%",
-                  display: "block",
-                  margin: "0 auto",
+                  width: "90%",
+                  height: "90%",
+                  objectFit: "contain",
+                  // padding: "10px",
                 }}
               />
-            </Link>
+            )}
           </div>
           <div className="card-body d-flex flex-column">
             <div className="d-flex flex-row">
@@ -52,42 +52,39 @@ const Grid_Product = ({ item }) => {
               </span>
             </div>
             <p className="card-text text-truncate">{item.name}</p>
-            <div className="card-footer d-flex align-items-end px-0 pb-0 mt-auto">
-              <div className="buttons">
-                {cartItems.some((p) => p._id === item._id) ? (
+            <div className="">
+            <div className="d-flex gap-2 buttons">
+              {cartItems.some((p) => p._id === item._id) ? (
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm w-100 my-card-button p-2 custom-button"
+                  onClick={() => {
+                    dispatch(removeFromCart(item));
+                    removeCart(item);
+                  }}
+                >
+                  Remove from Cart
+                </button>
+              ) : (
+                <>
                   <button
-                    type="button"
-                    className="bg-danger m-1 btn btn-link  text-light fw-bold border border-danger custom-button"
+                    className="btn btn-outline-primary btn-sm my-card-button p-2 custom-button"
                     onClick={() => {
-                      dispatch(removeFromCart(item));
-                      removeCart(item);
+                      dispatch(addToCart(item));
+                      addCart(item);
                     }}
                   >
-                    Remove from Cart
+                    Add to Cart
                   </button>
-                ) : (
-                  <div className="buttons">
-                    <button
-                      className="m-1 btn btn-link bg-light text-primary fw-bold border border-primary custom-button "
-                      onClick={() => {
-                        dispatch(addToCart(item));
-
-                        addCart(item);
-                      }}
-                    >
-                      Add to Cart
-                    </button>
-
-                    <button
-                      className="m-1 btn btn-link bg-primary text-light fw-bold border border-primary custom-button"
-                      onClick={() => handelbuyNoww(item)}
-                    >
-                      Buy Now
-                    </button>
-                  </div>
-                )}
-              </div>
-
+                  <button
+                    className="btn btn-primary btn-sm my-card-button custom-button"
+                    onClick={() => handelbuyNoww(item)}
+                  >
+                    Buy Now
+                  </button>
+                </>
+              )}
+            </div>
             </div>
           </div>
         </div>

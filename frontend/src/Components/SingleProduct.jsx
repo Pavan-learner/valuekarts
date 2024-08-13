@@ -32,16 +32,22 @@ const SingleProduct = ({ item }) => {
   // console.log(cart);
   return (
     <>
-      <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={item._id}>
+      <div className="col-lg-3 col-md-6 col-sm-12 mb-4 my-card-2" key={item._id}>
         <Toaster position="top-center" reverseOrder={false} />
-        <div className="card shadow-sm border-0 rounded-3 overflow-hidden">
+        <div className="card my-2 shadow-sm border-0 product-img card-action my-card ">
           <Link to={`/product/${item._id}`} className="text-decoration-none">
-            <div className="my-card-img-container p-3 pb-3">
+            <div className="my-card-img-container">
               {(item.imgLink) && (
                 <img
                   src={item.imgLink[0]}
                   alt={item.name}
-                  className="my-card-img"
+                  className="card-img-top rounded-2 p-1 w-100"
+                  style={{
+                    width: "90%",
+                    height: "90%",
+                    objectFit: "contain",
+                    // padding: "10px",
+                  }}
                 />
               )}
             </div>
@@ -54,11 +60,11 @@ const SingleProduct = ({ item }) => {
               {item.name}
             </p>
 
-            <div className="d-flex gap-2">
+            <div className="d-flex gap-2 buttons">
               {cartItems.some((p) => p._id === item._id) ? (
                 <button
                   type="button"
-                  className="btn btn-danger btn-sm w-100 my-card-button p-2"
+                  className="btn btn-danger btn-sm w-100 my-card-button p-2 custom-button"
                   onClick={() => {
                     dispatch(removeFromCart(item));
                     removeCart(item);
@@ -69,7 +75,10 @@ const SingleProduct = ({ item }) => {
               ) : (
                 <>
                   <button
-                    className="btn btn-outline-primary btn-sm w-50 my-card-button p-2"
+                    className="btn btn-outline-primary btn-sm my-card-button p-2 custom-button"
+                    style={{
+                      zIndex: "999",
+                    }}
                     onClick={() => {
                       dispatch(addToCart(item));
                       addCart(item);
@@ -78,7 +87,7 @@ const SingleProduct = ({ item }) => {
                     Add to Cart
                   </button>
                   <button
-                    className="btn btn-primary btn-sm w-50 my-card-button"
+                    className="btn btn-primary btn-sm my-card-button custom-button"
                     onClick={() => handelbuyNoww(item)}
                   >
                     Buy Now

@@ -32,7 +32,9 @@ const ProductPage = () => {
   useEffect(() => {
     setLoading(true);
     findProduct();
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    },1000)
   }, [id]);
 
 
@@ -56,8 +58,6 @@ const ProductPage = () => {
 
 
   // console.log(product.imgLink[0]);
-
-  const varieties = ["Black", "Blue", "Red", "Green", "White"];
 
   if (loading) {
     return <Loader />;

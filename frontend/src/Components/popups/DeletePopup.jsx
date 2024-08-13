@@ -33,7 +33,7 @@ const DeletePopup = ({ show, handleClose, id }) => {
       );
 
       console.log(res.data);
-
+      setLoading(false);
       setReason("");
       handleClose();
     } catch (error) {
@@ -44,17 +44,7 @@ const DeletePopup = ({ show, handleClose, id }) => {
     // Clear the reason input
   };
 
-  if (loading) {
-    return (
-      <>
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      </>
-    );
-  }
+
 
   return (
     <div>
@@ -81,7 +71,7 @@ const DeletePopup = ({ show, handleClose, id }) => {
             Close
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Submit
+            {loading ? "Loading..." : "Submit"}
           </Button>
         </Modal.Footer>
       </Modal>

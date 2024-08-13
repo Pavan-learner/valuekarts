@@ -35,7 +35,7 @@ const Header = () => {
               <div className="col-lg-2 col-sm-4 col-4">
                 <Link to={"/"} href="#" className="float-start">
                   {/* <!-- Here we want add logo --> */}
-                  <img src="/public/assets/logo.webp" alt="" id="logoimg" />
+                  <img src="https://monokingproducts.s3.ap-southeast-2.amazonaws.com/logo_03.png" alt="" id="logoimg" />
                 </Link>
               </div>
               {/* <!-- Left elements --> */}

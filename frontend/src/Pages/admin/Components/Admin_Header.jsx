@@ -79,7 +79,6 @@ const Admin_Header = () => {
                 <Link
                   to={"/dashboard/admin/event-list"}
                   className="nav-link"
-                  href="/events"
                 >
                   Events
                 </Link>

@@ -114,7 +114,7 @@ const Cart = () => {
 
                   {events.map((prod) => (
                     // passing element to CartProduct compnent
-                    <CartProduct prod={prod} key={prod.id} />
+                    <CartProduct prod={prod} key={prod._id} />
                   ))}
                   
                 </div>

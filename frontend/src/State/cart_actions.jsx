@@ -46,17 +46,13 @@ export const cartSlice = createSlice({
       state.order.push(action.payload);
     },
 
-    // * this method i for canceling the ordered product
-    cancelOrder : (state,action) =>{
-      state.order = state.order.filter((item) => item.id !== action.payload.id);
-    },
     
     addEvent: (state,action) =>{
         state.events.push({...action.payload})
     },
 
     removeEvent: (state,action)=>{
-      state.events = state.events.filter((item) => item.id !== action.payload.id);
+      state.events = state.events.filter((item) => item._id !== action.payload._id);
     }
   },
 });

@@ -24,6 +24,10 @@ const orderSchema = new mongoose.Schema({
     default: "Not Process",
     enum: ["Not Process", "Processing", "Shipped", "Delivered", "Cancelled"], // Corrected enum values
   },
+
+  reason: {
+    type: String,
+  }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 export default mongoose.model('Order', orderSchema);

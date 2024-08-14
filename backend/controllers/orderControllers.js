@@ -84,6 +84,8 @@ export const updateOrderStatusController = async(req,res) =>{
 export const cancelOrderController = async(req,res) =>{
   try {
     const id = req.params.id;
+    const reason = req.body.reason;
+
     const order = await orderModel.findById(id);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
@@ -94,6 +96,9 @@ export const cancelOrderController = async(req,res) =>{
     }
 
     order.status = 'Cancelled';
+
+    order.reason = reason;
+    
     await order.save();
 
     res.status(200).json({ message: 'Order cancelled successfully', order });

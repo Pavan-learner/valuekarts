@@ -23,35 +23,43 @@ const productSchema = mongoose.Schema(
 
     // * we are adding the product into the category
     category: {
-      type: mongoose.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
-    //   required: true,
+      required: true,
     },
     
-    variety: {
-      type: String,
-    },
-
     imgLink: {
-      type: Array,
-      deffault: [],
+      type: [String], // Array of strings
+      default: [],
     },
 
+    variety: {
+      type: [String], // Array of strings
+      default: [],
+    },
+
+    // * this is for user purpose
     qty: {
       type: Number,
-      required: true,
+      default: 0,
     },  
 
-    // * cloudnary or AWS or MongoDB [Now we are using mongoDB]
-    photo: {
-      data: Buffer,
-      contentType: String,
+    photo:{
+      type: String,
     },
+    // This is for admin purpose 
+    stock: {
+      type: Number,
+      required: true,
+    },
+
+    // * For storing image data
 
     shipping: {
-      type: Boolean,
+      type: String,
+      default: '4-5 days delivery',
+      required: true,
     },
-
     
   },
   { timestamps: true }

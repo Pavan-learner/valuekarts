@@ -55,7 +55,7 @@ router.post('/send-mail', async (req,res) =>{
 
 router.post('/book-mail', async (req,res) =>{
 
-    const {name,email,address,phone} = req.body;
+    const {name,email,address,phone,date} = req.body;
 
     try {
         const transporter = nodemailer.createTransport({
@@ -78,6 +78,7 @@ router.post('/book-mail', async (req,res) =>{
             <p>Thank you for booking, ${name}!</p>
             <p>Address: ${address}</p>
             <p>Phone: +91 ${phone}</p>
+            <p>Date: ${date}</p>
             
             <p> Our team will get back to you soon. Have a good day !!!</p>
           `
@@ -93,7 +94,8 @@ router.post('/book-mail', async (req,res) =>{
             <p>Customer Name:  ${name}</p>
             <p>Customer Address: ${address}</p>
             <p>Customer Phone: +91 ${phone}</p>
-
+            <p>Customer Email: ${email}</p>
+            <p>Customer Date: ${date}</p>
             Have Good day !!!
           `
           };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { url } from "./backend_link/data";
 import axios from "axios";
+import Loader_2 from "./Loading/Loader_2";
 
 const Category = () => {
   const [Category, setCategory] = useState([]);
@@ -21,18 +22,23 @@ const Category = () => {
       //   console.log(res.data.data);
 
       setLoading(false);
+
+
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
+
+  if(loading){
+    return <Loader_2/>
+  }
+
   return (
     <>
-      <section className="mt-5">
+<section className="mt-5">
   <div className="container">
-    <header className="mb-4">
-      <h3 className="mt-5">Featured Products</h3>
-    </header>
     <nav className="row gx-2 gy-2">
       {Category.map((category, index) => (
         <div 
@@ -69,6 +75,8 @@ const Category = () => {
     </nav>
   </div>
 </section>
+
+
     </>
   );
 };

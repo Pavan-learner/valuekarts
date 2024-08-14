@@ -4,39 +4,38 @@ import Products from "../Components/Products";
 import { Link } from "react-router-dom";
 // import { recItems } from "../Components/Data";
 import { clearBuy } from "../State/cart_actions";
-import { useDispatch, useSelector, } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { url } from "../Components/backend_link/data";
-
-
+import Loader_2 from "../Components/Loading/Loader_2";
 
 const Home = () => {
-
   const dispatch = useDispatch();
-
-  
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(clearBuy());
 
     fetchRecitems();
-  
-  },[]);
+  }, []);
 
-  const [recItems, setRecItems] = useState([])
+  const [recItems, setRecItems] = useState([]);
 
-  const fetchRecitems = async() =>{
-    
+  const fetchRecitems = async () => {
+    setloading(true);
+
     try {
       const res = await axios.get(`${url}/api/v2/products/section-two`);
 
       setRecItems(res.data);
+      setloading(false);
     } catch (error) {
       console.log(error);
+      setloading(false);
     }
-  }
- 
+  };
+
   return (
     <>
       <section className="pt-3">
@@ -90,10 +89,9 @@ const Home = () => {
         </div>
       </section>
 
-
       <Category />
 
-      <Products recItems={recItems} />
+      {loading ? <Loader_2 /> : <Products recItems={recItems} />}
     </>
   );
 };

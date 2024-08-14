@@ -141,7 +141,7 @@ function App() {
               // ! Vechicle
               <Route path = 'admin/create-vechicle' element = {<CreateVechicle/>}/>
               <Route path = 'admin/update-vechicle/:id' element = {<UpdateVechicle/>}/>
-              <Router path = 'amdin/vechicle-list' element = {<ReadVechicle/>} />
+              <Route path = 'amdin/vechicle-list' element = {<ReadVechicle/>} />
               
 
             </Route>

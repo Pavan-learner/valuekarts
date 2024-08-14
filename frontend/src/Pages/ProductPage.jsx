@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // * These module for giving an alert after adding to the cart
 import toast from "react-hot-toast";
@@ -16,6 +16,8 @@ const ProductPage = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+  
   // Redux attributes
   const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
@@ -58,6 +60,12 @@ const ProductPage = () => {
 
 
   // console.log(product.imgLink[0]);
+
+
+  const handelbuyNow = () => {
+    dispatch(addToCart(product, 1));
+    navigate('/checkout');
+  };
 
   if (loading) {
     return <Loader />;
@@ -163,6 +171,7 @@ const ProductPage = () => {
                         className="btn btn-primary w-50"
                         onClick={() => {
                           // handleBuyNow(product);
+                          handelbuyNow(product);
                         }}
                       >
                         Buy Now

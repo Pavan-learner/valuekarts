@@ -42,6 +42,9 @@ import UpdateEvent from "./Pages/admin/events/UpdateEvent";
 import { useDispatch } from "react-redux";
 import { setAuth } from "./State/auth_action";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import CreateVechicle from "./Pages/admin/vechicle/CreateVechicle";
+import UpdateVechicle from "./Pages/admin/vechicle/UpdateVechicle";
+import ReadVechicle from "./Pages/admin/vechicle/ReadVechicle";
 
 
 function App() {
@@ -109,7 +112,7 @@ function App() {
               />
               
               <Route
-                path="admin/edit-category/:id"
+                path="admin/edit-category/:slug"
                 element={<UpdateCateogry />}
               />
               <Route
@@ -134,6 +137,12 @@ function App() {
               <Route path = 'admin/create-event' element = {<CreateEvent/>}/>
               <Route path = 'admin/event-list' element = {<EventList/>} />
               <Route path = 'admin/update-event/:id' element = {<UpdateEvent/>} />
+
+              // ! Vechicle
+              <Route path = 'admin/create-vechicle' element = {<CreateVechicle/>}/>
+              <Route path = 'admin/update-vechicle/:id' element = {<UpdateVechicle/>}/>
+              <Router path = 'amdin/vechicle-list' element = {<ReadVechicle/>} />
+              
 
             </Route>
 

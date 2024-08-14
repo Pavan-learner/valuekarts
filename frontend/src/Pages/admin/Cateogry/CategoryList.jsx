@@ -84,7 +84,7 @@ const CategoryList = () => {
                                   <td>{item.slug}</td>
                                   <td>
                                     <Link
-                                      to={`/dashboard/admin/edit-category/${item._id}`}
+                                      to={`/dashboard/admin/edit-category/${item.slug}`}
                                       className="btn btn-primary btn-sm me-2 mb-1"
                                     >
                                       Edit

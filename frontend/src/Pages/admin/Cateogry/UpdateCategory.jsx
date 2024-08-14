@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Admin_Header from '../Components/Admin_Header';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
@@ -9,8 +9,12 @@ import Backbutton from '../../../Components/Backbutton';
 import { url } from '../../../Components/backend_link/data';
 
 const UpdateCategory = () => {
-  const { id } = useParams();
+  const {slug } = useParams();
+
+  console.log(slug)
   const [name, setName] = useState('');
+  const [image, setImage] = useState('');
+  const [id, setId] = useState(null);
   const [loading, setLoading] = useState(false);
   const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -21,7 +25,7 @@ const UpdateCategory = () => {
     try {
       const res = await axios.put(
         `${url}/api/v2/category/update-category/${id}`,
-        { name }, // Only include the data to be sent in the body
+        { name ,image }, // Only include the data to be sent in the body
         {
           headers: {
             Authorization: auth?.token // Include headers in the config object
@@ -44,6 +48,25 @@ const UpdateCategory = () => {
     }
   };
 
+  const getSingleCategory = async() =>{
+    try {
+      const res = await axios.get(`${url}/api/v2/category/get-category/${slug}`);
+      console.log(res.data.data);
+      setId(res.data.category._id);
+      setName(res.data.category.name);
+      setImage(res.data.category.image || '');
+      
+      // console.log(res.data.category._id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getSingleCategory();
+  
+  }, [id])
+  
   return (
     <>
       <Admin_Header />
@@ -69,6 +92,19 @@ const UpdateCategory = () => {
                       placeholder="Enter category name"
                     />
                   </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Category Image Link</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-lg"
+                      id="name"
+                      value={image}
+                      onChange={(e) => setImage(e.target.value)}
+                      placeholder="Category Image link"
+                    />
+                  </div>
+
                   <div className="d-flex justify-content-center">
                     <button
                       className="btn btn-primary btn-lg px-4 py-2"

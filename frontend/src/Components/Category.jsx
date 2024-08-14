@@ -1,156 +1,81 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { GiClothes, GiCycling } from "react-icons/gi";
-import { MdDevices } from "react-icons/md";
-import { FaUsers } from "react-icons/fa";
-import { FaCar } from "react-icons/fa";
-import { MdEvent } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { url } from "./backend_link/data";
+import axios from "axios";
 
 const Category = () => {
+  const [Category, setCategory] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${url}/api/v2/category/get-categories`);
+
+      setCategory(res.data.data);
+      //   console.log(res.data.data);
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-<>
-<section>
-
-    <div className="container pt-5">
-      <nav className="row gy-4 d-flex">
-        <div className="col-lg-6 col-md-12">
-          <div className="row">
-            <div className="col-3">
-              <Link to = {"/interior"} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-couch fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Interior items</div>
-              </Link>
-            </div>
-            <div className="col-3">
-              <Link to = '/book-ride' href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <FaCar style={{width:"100%",height:"100%", fontSize: "25px"}} />
-                </button>
-                <div className="text-dark">Book Rides</div>
-              </Link>
-            </div>
-
-            <div className="col-3">
-              <Link to = '/event' href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <MdEvent style={{width:"100%",height:"100%", fontSize: "25px"}} />
-                </button>
-                <div className="text-dark">Schedule Event</div>
-              </Link>
-            </div>
-
+    <>
+      <section className="mt-5">
+        <div className="container">
+          <header className="mb-4">
+            <h3 className="mt-5">Featured Products</h3>
+          </header>
+          <nav className="row gx-2 gy-2 d-flex">
             
+            {Category.map((category, index) => (
+              <div className="col-6 col-sm-4 col-md-3 mb-3" key={index}>
+                <Link
+                  to={category.link}
+                  className="text-center d-flex flex-column justify-content-center align-items-center"
+                  style={{ textDecoration: "none" }} // Remove underline from link
+                >
+                  <div className="category-icon-container mb-1">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="img-fluid"
+                      style={{
+                        width: "80px", // Adjust the size as needed
+                        height: "80px", // Adjust the size as needed
+                        objectFit: "cover", // Maintain aspect ratio and cover the container
+                        objectPosition: "center",
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="text-dark mt-1 card-text"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    {category.name}
+                  </div>
+                </Link>
 
-            <div className="col-3">
-              <a href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-clock fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Tiles</div>
-              </a>
-            </div>
+                
+              </div>
+              
+            ))}
 
-          </div>
-        </div>
-
-        <div className="col-lg-6 col-md-12">
-
-          <div className="row">
-            <div className="col-3">
-              <a href="service.html" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <FaUsers style={{fontSize:"25px"}}/>
-                </button>
-                <div className="text-dark">Urban Services</div>
-              </a>
-            </div>
-
-            <div className="col-3">
-              <a href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <GiCycling  style={{ fontSize: "25px" }}/>
-                </button>
-                <div className="text-dark">Bycycles</div>
-              </a>
-            </div>
-
-            <div className="col-3">
-              <Link to = {'/productView'} className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                 <GiClothes style = {{fontSize:"25px"}}/>
-                </button>
-                <Link to = {'/productView'} className="text-dark">Women</Link>
-              </Link>
-            </div>
-
-            <div className="col-3">
-              <Link to = {'/productView'} className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-tshirt fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Men</div>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="col-lg-6 col-md-12">
-          <div className="row">
-            <div className="col-3">
-              <Link to = {'/productView'} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-tshirt fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Childrens</div>
-              </Link>
-            </div>
-            <div className="col-3">
-              <Link to = {'/productView'} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-shoe-prints fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Footwear</div>
-              </Link>
-            </div>
-
-            <div className="col-3">
-              <Link to = {'/productView'} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-tools fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Tools</div>
-              </Link>
-            </div>
-            <div className="col-3">
-              <Link to = {'/productView'} className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <MdDevices style={{width:"100%",height:"100%", fontSize: "25px"}}/>
-                </button>
-                <Link to = {'/productView'} className="text-dark">Eelctronics</Link>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="col-lg-6 col-md-12">
-          <div className="row">
-
-            {/* <!-- If the client ask to add another row of categories --> */}
            
 
-          </div>
+
+          </nav>
         </div>
+      </section>
+    </>
+  );
+};
 
-      </nav>
-    </div>
-  </section>
-
-</>
-  )
-}
-
-export default Category
+export default Category;

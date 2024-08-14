@@ -10,6 +10,9 @@ import { url } from '../../../Components/backend_link/data';
 const CreateCategory = () => {
 
   const [name, setName] = useState('');
+
+  const [image, setImage] = useState('');
+
   const [loading, setLoading] = useState(false);
   const naviagte = useNavigate();
 
@@ -23,7 +26,7 @@ const auth =  useSelector((state) => state.auth);
     try {
       const res = await axios.post(
         `${url}/api/v2/category/create-category`,
-        { name }, // Only include the data to be sent in the body
+        { name , image }, // Only include the data to be sent in the body
         {
           headers: {
             Authorization: auth?.token // Include headers in the config object
@@ -71,6 +74,20 @@ const auth =  useSelector((state) => state.auth);
                       placeholder="Enter category name"
                     />
                   </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Category Image Link</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-lg"
+                      id="name"
+                      value={image}
+                      onChange={(e) => setImage(e.target.value)}
+                      placeholder="Enter category name"
+                    />
+                  </div>
+
+
                   <div className="d-flex justify-content-center">
                     <button
                       className="btn btn-primary btn-lg px-4 py-2"

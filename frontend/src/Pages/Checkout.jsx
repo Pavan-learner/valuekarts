@@ -352,6 +352,7 @@ const Checkout = () => {
                                   aria-label="Phone Number"
                                   value={phone}
                                   onChange={(e) => setPhone(e.target.value)}
+                                  required
                                 />
                               </div>
                             )}
@@ -366,6 +367,7 @@ const Checkout = () => {
                                   aria-label="mail"
                                   value={mail}
                                   onChange={(e) => setMail(e.target.value)}
+                                  required
                                 />
                               </div>
                               )
@@ -423,6 +425,7 @@ const Checkout = () => {
                             onFocus={handleFocus}
                             onChange={handleChange}
                             style={{ border: "1px solid #ccc" }}
+                            required
                           />
                         </div>
                       </div>
@@ -434,9 +437,10 @@ const Checkout = () => {
                           name="user_phone"
                           placeholder="+91 1234567890"
                           style={{ border: "1px solid #ccc" }}
+                          required
                         />
                       </div>
-                      <p className="mb-0">Email (optional)</p>
+                      <p className="mb-0">Email </p>
                       <div className="form-outline mb-4">
                         <input
                           type="email"
@@ -445,6 +449,7 @@ const Checkout = () => {
                           placeholder="youremail@example.com"
                           aria-label="youremail@example.com"
                           style={{ border: "1px solid #ccc" }}
+                          required
                         />
                       </div>
                       <p className="mb-0">Address</p>
@@ -458,6 +463,7 @@ const Checkout = () => {
                           placeholder="1234 Main St"
                           aria-label="1234 Main St"
                           style={{ border: "1px solid #ccc" }}
+                          required
                         />
                       </div>
 

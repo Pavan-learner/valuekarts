@@ -90,6 +90,7 @@ const Home = () => {
         </div>
       </section>
 
+
       <Category />
 
       <Products recItems={recItems} />

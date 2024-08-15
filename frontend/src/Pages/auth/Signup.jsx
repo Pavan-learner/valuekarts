@@ -132,7 +132,7 @@ const Signup = () => {
                   </p>
 
                   <img
-                    src="/public/assets/signup.webp"
+                    src="https://monokingproducts.s3.ap-southeast-2.amazonaws.com/signup.webp"
                     className="signup-img"
                     alt=""
                   />

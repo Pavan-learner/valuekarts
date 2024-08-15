@@ -261,3 +261,14 @@
     height: 150px;
   }
 }
+
+
+.product-description {
+  max-height: 100px; /* Set the initial height of the description */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-description.expanded {
+  max-height: none; /* Remove the height restriction when expanded */
+}

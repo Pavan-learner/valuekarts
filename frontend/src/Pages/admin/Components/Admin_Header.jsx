@@ -87,7 +87,6 @@ const Admin_Header = () => {
                 <Link
                   to={"/dashboard/admin/vehicle-list"}
                   className="nav-link"
-                  href="/vehicles"
                 >
                   Vehicles
                 </Link>

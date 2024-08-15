@@ -1,418 +1,117 @@
-# dotComCode
-
-
-
-Futre Code 
-    <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingTwo">
-                            <button
-                              className="accordion-button text-dark bg-light"
-                              type="button"
-                              data-mdb-toggle="collapse"
-                              data-mdb-target="#panelsStayOpen-collapseTwo"
-                              aria-expanded="true"
-                              aria-controls="panelsStayOpen-collapseTwo"
-                            >
-                              Brands
-                            </button>
-                          </h2>
-                          <div
-                            id="panelsStayOpen-collapseTwo"
-                            className="accordion-collapse collapse show"
-                            aria-labelledby="headingTwo"
-                          ></div>
-                        </div>
-                        <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingThree">
-                            <button
-                              className="accordion-button text-dark bg-light"
-                              type="button"
-                              data-mdb-toggle="collapse"
-                              data-mdb-target="#panelsStayOpen-collapseThree"
-                              aria-expanded="false"
-                              aria-controls="panelsStayOpen-collapseThree"
-                            >
-                              Price
-                            </button>
-                          </h2>
-                          <div
-                            id="panelsStayOpen-collapseThree"
-                            className="accordion-collapse collapse show"
-                            aria-labelledby="headingThree"
-                          >
-                            <div className="accordion-body">
-                              <div className="range">
-                                <input
-                                  type="range"
-                                  className="form-range"
-                                  id="customRange1"
-                                />
-                              </div>
-                              <div className="row mb-3">
-                                <div className="col-6">
-                                  <p className="mb-0">Min</p>
-                                  <div className="form-outline">
-                                    <input
-                                      type="number"
-                                      id="typeNumber"
-                                      className="form-control"
-                                    />
-                                    <label
-                                      className="form-label"
-                                      htmlFor="typeNumber"
-                                    >
-                                      $0
-                                    </label>
-                                  </div>
-                                </div>
-                                <div className="col-6">
-                                  <p className="mb-0">Max</p>
-                                  <div className="form-outline">
-                                    <input
-                                      type="number"
-                                      id="typeNumber"
-                                      className="form-control"
-                                    />
-                                    <label
-                                      className="form-label"
-                                      htmlFor="typeNumber"
-                                    >
-                                      $1,0000
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <button
-                                type="button"
-                                className="btn btn-white w-100 border border-secondary"
-                              >
-                                apply
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingThree">
-                            <button
-                              className="accordion-button text-dark bg-light"
-                              type="button"
-                              data-mdb-toggle="collapse"
-                              data-mdb-target="#panelsStayOpen-collapseFour"
-                              aria-expanded="false"
-                              aria-controls="panelsStayOpen-collapseFour"
-                            >
-                              Size
-                            </button>
-                          </h2>
-                          <div
-                            id="panelsStayOpen-collapseFour"
-                            className="accordion-collapse collapse show"
-                            aria-labelledby="headingThree"
-                          >
-                            <div className="accordion-body">
-                              <input
-                                type="checkbox"
-                                className="btn-check border justify-content-center"
-                                id="btn-check1"
-                                checked
-                                autocomplete="off"
-                              />
-                              <label
-                                className="btn btn-white mb-1 px-1"
-                                style={{ width: "60px;" }}
-                                htmlFor="btn-check1"
-                              >
-                                XS
-                              </label>
-                              <input
-                                type="checkbox"
-                                className="btn-check border justify-content-center"
-                                id="btn-check2"
-                                checked
-                                autocomplete="off"
-                              />
-                              <label
-                                className="btn btn-white mb-1 px-1"
-                                style={{ width: "60px;" }}
-                                htmlFor="btn-check2"
-                              >
-                                SM
-                              </label>
-                              <input
-                                type="checkbox"
-                                className="btn-check border justify-content-center"
-                                id="btn-check3"
-                                checked
-                                autocomplete="off"
-                              />
-                              <label
-                                className="btn btn-white mb-1 px-1"
-                                style={{ width: "60px;" }}
-                                htmlFor="btn-check3"
-                              >
-                                LG
-                              </label>
-                              <input
-                                type="checkbox"
-                                className="btn-check border justify-content-center"
-                                id="btn-check4"
-                                checked
-                                autocomplete="off"
-                              />
-                              <label
-                                className="btn btn-white mb-1 px-1"
-                                style={{ width: "60px;" }}
-                                htmlFor="btn-check4"
-                              >
-                                XXL
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-
-
-                         <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingThree">
-                            <button
-                              className="accordion-button text-dark bg-light"
-                              type="button"
-                              data-mdb-toggle="collapse"
-                              data-mdb-target="#panelsStayOpen-collapseFive"
-                              aria-expanded="false"
-                              aria-controls="panelsStayOpen-collapseFive"
-                            >
-                              Ratings
-                            </button>
-                          </h2>
-                          <div
-                            id="panelsStayOpen-collapseFive"
-                            className="accordion-collapse collapse show"
-                            aria-labelledby="headingThree"
-                          >
-                            <div className="accordion-body">
-                              {/* <!-- Default checkbox -->  */}
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  value=""
-                                  id="flexCheckDefault"
-                                  checked
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexCheckDefault"
-                                >
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                </label>
-                              </div>
-                              {/* <!-- Default checkbox -->  */}
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  value=""
-                                  id="flexCheckDefault"
-                                  checked
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexCheckDefault"
-                                >
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-secondary"></i>
-                                </label>
-                              </div>
-                              {/* {/* <!-- Default checkbox -->  */}
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  value=""
-                                  id="flexCheckDefault"
-                                  checked
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexCheckDefault"
-                                >
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-secondary"></i>
-                                  <i className="fas fa-star text-secondary"></i>
-                                </label>
-                              </div>
-                              {/* {/* <!-- Default checkbox -->  */}
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  value=""
-                                  id="flexCheckDefault"
-                                  checked
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexCheckDefault"
-                                >
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-warning"></i>
-                                  <i className="fas fa-star text-secondary"></i>
-                                  <i className="fas fa-star text-secondary"></i>
-                                  <i className="fas fa-star text-secondary"></i>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div
-
-
-
-
-                        /// * category section
-
-                        
-    <div className="container pt-5">
-      <nav className="row gy-4 d-flex">
-        <div className="col-lg-6 col-md-12">
+ <main className="pt-1">
+        <div className="container mt-2">
           <div className="row">
-            <div className="col-3">
-              <Link to = {"/interior"} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-couch fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Interior items</div>
-              </Link>
-            </div>
-            <div className="col-3">
-              <Link to = '/book-ride' href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <FaCar style={{width:"100%",height:"100%", fontSize: "25px"}} />
-                </button>
-                <div className="text-dark">Book Rides</div>
-              </Link>
-            </div>
+            {/* Product Image Gallery */}
 
-            <div className="col-3">
-              <Link to = '/event' href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <MdEvent style={{width:"100%",height:"100%", fontSize: "25px"}} />
-                </button>
-                <div className="text-dark">Schedule Event</div>
-              </Link>
-            </div>
+            <div className="col-md-6 mb-4">
+              <div className="image-container">
+                <img
+                  src={selectedImage}
+                  className="img-fluid main-image"
+                  alt={product.title}
+                />
+              </div>
 
-            
-
-            <div className="col-3">
-              <a href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-clock fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Tiles</div>
-              </a>
+              {/* Main Product Image */}
+              {/* Thumbnail Images */}
+              <div className="d-flex flex-wrap mt-3">
+                {(product.imgLink || []).map(
+                  (img, index) => (
+                      <img
+                        key={index}
+                        src={img}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="img-thumbnail me-2 mb-2 thumbnail-image"
+                        onClick={() => setSelectedImage(img)}
+                      />
+                    )
+                )}
+              </div>
             </div>
 
+            {/* Product Details */}
+            <div className="col-md-6 mb-4">
+              <div className="p-4">
+                {/* Product Tags */}
+                <div className="mb-3">
+                  {/* <span className="badge bg-dark me-1">{product.category}</span> */}
+                  <span className="badge bg-info me-1">New</span>
+                  <span className="badge bg-danger me-1">Bestseller</span>
+                </div>
+
+                {/* Product Title */}
+                <h6 className="mb-3">{product.name}</h6>
+                {/* Price and Discount */}
+                <p className="lead">
+                  <span className="text-decoration-line-through me-1">
+                    {product.price}
+                  </span>
+                  <span>{product.price}</span>
+                </p>
+
+                {/* Product Description */}
+                <h5>Details:</h5>
+                <p>{product.description}</p>
+
+                <div className="mb-4">
+                  <h5>Varieties:</h5>
+                  <div className="d-flex flex-wrap">
+                    {product?.variety?.length &&
+                      product.variety.map((variety, index) => (
+                        <span
+                          key={index}
+                          className="badge bg-secondary me-2 mb-2 variety-badge"
+                        >
+                          {variety}
+                        </span>
+                      ))}
+                  </div>
+                </div>
+
+                {/* Add to Cart / Remove from Cart */}
+                <div className="d-flex flex-column w-100">
+                  {cart.some((p) => p._id === product._id) ? (
+                    <button
+                      type="button"
+                      className="btn btn-danger mb-2 w-50"
+                      onClick={() => {
+                        dispatch(removeFromCart(product));
+                        // notifyRemovedFromCart(product)
+                      }}
+                    >
+                      Remove from Cart
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        className="btn btn-outline-primary mb-2 w-50"
+                        onClick={() => {
+                          dispatch(addToCart(product));
+                          // notifyAddedToCart(product)
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        className="btn btn-primary w-50"
+                        onClick={() => {
+                          // handleBuyNow(product);
+                          handelbuyNow(product);
+                        }}
+                      >
+                        Buy Now
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Future Recommendations Section */}
+          {/* <hr />
+        <div className="recommendations">
+          // Future recommendations will go here
+        </div> */}
         </div>
-
-        <div className="col-lg-6 col-md-12">
-
-          <div className="row">
-            <div className="col-3">
-              <a href="service.html" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <FaUsers style={{fontSize:"25px"}}/>
-                </button>
-                <div className="text-dark">Urban Services</div>
-              </a>
-            </div>
-
-            <div className="col-3">
-              <a href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                <GiCycling  style={{ fontSize: "25px" }}/>
-                </button>
-                <div className="text-dark">Bycycles</div>
-              </a>
-            </div>
-
-            <div className="col-3">
-              <Link to = {'/productView'} className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                 <GiClothes style = {{fontSize:"25px"}}/>
-                </button>
-                <Link to = {'/productView'} className="text-dark">Women</Link>
-              </Link>
-            </div>
-
-            <div className="col-3">
-              <Link to = {'/productView'} className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-tshirt fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Men</div>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="col-lg-6 col-md-12">
-          <div className="row">
-            <div className="col-3">
-              <Link to = {'/productView'} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-tshirt fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Childrens</div>
-              </Link>
-            </div>
-            <div className="col-3">
-              <Link to = {'/productView'} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-shoe-prints fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Footwear</div>
-              </Link>
-            </div>
-
-            <div className="col-3">
-              <Link to = {'/productView'} href="#" className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <i className="fas fa-tools fa-xl fa-fw"></i>
-                </button>
-                <div className="text-dark">Tools</div>
-              </Link>
-            </div>
-            <div className="col-3">
-              <Link to = {'/productView'} className="text-center d-flex flex-column justify-content-center">
-                <button type="button" className="btn btn-outline-secondary mx-auto p-3 mb-2" data-mdb-ripple-color="dark">
-                  <MdDevices style={{width:"100%",height:"100%", fontSize: "25px"}}/>
-                </button>
-                <Link to = {'/productView'} className="text-dark">Eelctronics</Link>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="col-lg-6 col-md-12">
-          <div className="row">
-
-            {/* <!-- If the client ask to add another row of categories --> */}
-           
-
-          </div>
-        </div>
-
-      </nav>
-    </div>
+      </main>

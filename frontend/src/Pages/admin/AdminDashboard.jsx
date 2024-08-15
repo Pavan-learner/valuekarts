@@ -9,8 +9,9 @@ import { MdDeliveryDining } from "react-icons/md";
 import { MdEventAvailable } from "react-icons/md";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FcSalesPerformance } from "react-icons/fc";
-import { TfiMenu } from "react-icons/tfi";
 import Admin_Header from "./Components/Admin_Header";
+import { url } from "../../Components/backend_link/data";
+import axios from "axios";
 
 const AdminDashboard = () => {
   const [Loading, setLoading] = useState(false);
@@ -25,19 +26,108 @@ const AdminDashboard = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+    fetchOrders();
+    fetchUsers();
+    totalProducts();
   }, []);
 
-  const handelLogout = () => {
-    setLoading(true);
+  const [orders, setOrders] = useState([]);
 
-    setTimeout(() => {
-      dispatch(clearAuth());
-      localStorage.removeItem("auth-Data");
-      setLoading(false);
-      toast.success("Logout Successfully");
+  const [orderData, setOrderData] = useState({
+    totalAmt: 0,
+    delivered: 0,
+    pending: 0,
+    cancelled: 0,
+    totalOrders: orders.length,
+    users: 0,
+    productsCount: 0,
+  });
 
-      navigate("/login");
-    }, 1000);
+  useEffect(() => {
+    // Process orders to update orderData after orders are fetched
+    const updateOrderData = () => {
+      let delivered = 0;
+      let pending = 0;
+      let cancelled = 0;
+      let totalAmt = 0;
+
+      orders.forEach((order) => {
+        if (order.status === "Delivered") {
+          delivered += 1;
+          order.products.forEach((product) => {
+            totalAmt += product.price;
+          });
+        }
+        if (order.status === "Cancelled") {
+          cancelled += 1;
+        }
+        if (order.status === "Not Processed") {
+          pending += 1;
+        }
+      });
+
+      setOrderData((prevData) => ({
+        ...prevData,
+        delivered,
+        pending,
+        cancelled,
+        totalAmt,
+        totalOrders: orders.length,
+      }));
+    };
+
+    if (orders.length > 0) {
+      updateOrderData();
+    }
+  }, [orders]);
+
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get(`${url}/api/v2/order/admin-orders`, {
+        headers: {
+          Authorization: auth.token,
+        },
+      });
+      setOrders(res.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(`${url}/api/v2/auth/get-users`, {
+        headers: {
+          Authorization: auth.token,
+        },
+      });
+
+      if (res.data.success) {
+        setOrderData((prevData) => ({
+          ...prevData,
+          users: res.data.count,
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const totalProducts = async () => {
+    try {
+      const res = await axios.get(`${url}/api/v2/products/get-products`, {
+        headers: {
+          Authorization: auth.token,
+        },
+      });
+
+      setOrderData((prevData) => ({
+        ...prevData,
+        productsCount: res.data.total_products,
+      }));
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   };
 
   return (
@@ -48,7 +138,7 @@ const AdminDashboard = () => {
         <div>
           <Toaster />
 
-         <Admin_Header/>
+          <Admin_Header />
 
           <main
             style={{
@@ -98,7 +188,7 @@ const AdminDashboard = () => {
                             <i className="fas fa-map-marker-alt text-danger fa-3x" />
                           </div>
                           <div className="text-end">
-                            <h3>0</h3>
+                            <h3>{orderData.delivered}</h3>
                             <p className="mb-0">Total Orders Delivered</p>
                           </div>
                         </div>
@@ -111,7 +201,7 @@ const AdminDashboard = () => {
                       <div className="card-body">
                         <div className="d-flex justify-content-between px-md-1">
                           <div>
-                            <h3 className="">0</h3>
+                            <h3 className="">{orderData.users}</h3>
                             <p className="mb-0">Total Users</p>
                           </div>
                           <div className="align-self-center">
@@ -159,33 +249,36 @@ const AdminDashboard = () => {
                             </div>
                           </div>
                           <div className="align-self-center">
-                            <h2 className="h1 mb-0">0</h2>
+                            <h2 className="h1 mb-0">
+                              {orderData.productsCount}
+                            </h2>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="col-xl-6 col-md-12 mb-4">
-                    <Link to = '/dashboard/admin/orders'>
-
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between p-md-1">
-                          <div className="d-flex flex-row">
+                    <Link to="/dashboard/admin/orders">
+                      <div className="card">
+                        <div className="card-body">
+                          <div className="d-flex justify-content-between p-md-1">
+                            <div className="d-flex flex-row">
+                              <div className="align-self-center">
+                                <i className="far fa-comment-alt text-warning fa-3x me-4" />
+                              </div>
+                              <div>
+                                <h4>Orders</h4>
+                                <p className="mb-0">Total Orders</p>
+                              </div>
+                            </div>
                             <div className="align-self-center">
-                              <i className="far fa-comment-alt text-warning fa-3x me-4" />
+                              <h2 className="h1 mb-0">
+                                {orderData.totalOrders}
+                              </h2>
                             </div>
-                            <div>
-                              <h4>New Orders</h4>
-                              <p className="mb-0">Today's Orders</p>
-                            </div>
-                          </div>
-                          <div className="align-self-center">
-                            <h2 className="h1 mb-0">0</h2>
                           </div>
                         </div>
                       </div>
-                    </div>
                     </Link>
                   </div>
                 </div>
@@ -196,7 +289,9 @@ const AdminDashboard = () => {
                         <div className="d-flex justify-content-between p-md-1">
                           <div className="d-flex flex-row">
                             <div className="align-self-center">
-                              <h2 className="h1 mb-0 me-4">0</h2>
+                              <h2 className="h1 mb-0 me-4">
+                                Rs.{orderData.totalAmt}
+                              </h2>
                             </div>
                             <div>
                               <h4>Total Sales</h4>

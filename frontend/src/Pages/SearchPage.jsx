@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Loader from '../Components/Loading/Loader';
 import SingleProduct from "../Components/SingleProduct";
+import Backbutton from "../Components/Backbutton";
 
 
 const SearchPage = () => {
@@ -42,6 +43,7 @@ const SearchPage = () => {
   return (
     <div>
       <div className="container my-5">
+      <Backbutton path = {'/'} />
         <h2 className="text-center mb-4 mt-4">Search Results</h2>
         {results.length === 0 ? (
           <div>No results found.</div>

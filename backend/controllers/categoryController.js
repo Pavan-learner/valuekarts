@@ -3,7 +3,7 @@ import categoryModel from "../models/categoryModel.js";
 
 export const createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name , image } = req.body;
 
     // * check for existing category
     const existingCate = await categoryModel.findOne({ name });
@@ -11,8 +11,9 @@ export const createCategory = async (req, res) => {
       return res.status(400).send({ message: "Category already exists" });
     }
 
-    const newCategory = await new categoryModel({
+    const newCategory = new categoryModel({
       name,
+      image,
       slug: slugify(name),
     });
 
@@ -38,8 +39,9 @@ export const getCategories = async (req, res) => {
 
 export const getSingleCategory = async (req,res) =>{
     try {
-        // const {slug} = req.params.slug;
+        const {slug} = req.params;
 
+        console.log(slug)
         const category = await categoryModel.findOne({slug: req.params.slug});
 
         res.status(200).send({
@@ -56,10 +58,10 @@ export const getSingleCategory = async (req,res) =>{
 
 export const updateCategory = async (req,res) =>{
     try {
-        const {name} = req.body;
+        const {name,image} = req.body;
         const {id} = req.params;
 
-        const category  = await categoryModel.findByIdAndUpdate(id,{name,slug:slugify(name)});
+        const category  = await categoryModel.findByIdAndUpdate(id,{name,image,slug:slugify(name)});
 
         res.status(200).send({
             success:true,

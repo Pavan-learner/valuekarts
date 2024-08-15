@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+ 
 const EventModel = new mongoose.Schema({
     name: {
         type: String,
@@ -16,6 +16,7 @@ const EventModel = new mongoose.Schema({
         required: true,
         trim: true
     },
+
     image:{
         type: [String],
         default:[],

@@ -10,6 +10,8 @@ import productRoutes from "./routes/productRoutes.js";
 import mailRoutes from "./routes/mailRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
+import vechicleRoutes from './routes/vechicleRoute.js'
+
 
 dotenv.config();
 
@@ -26,6 +28,7 @@ app.use("/api/v2/products", productRoutes);
 app.use("/api/v2/mail", mailRoutes);
 app.use("/api/v2/order", orderRoutes);
 app.use("/api/v2/event", eventRoutes);
+app.use('/api/v2/vehicle',vechicleRoutes)
 
 const PORT = process.env.PORT || 8080;
 

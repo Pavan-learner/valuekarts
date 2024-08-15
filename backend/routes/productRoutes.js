@@ -1,7 +1,7 @@
 import express from "express";
 import { isAdmin, requireSignin } from "../middleware/authMiddleware.js";
 import formidable from 'express-formidable';
-import { createProduct, deleteProduct, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct, deleteProduct, getCategoryProducts, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, searchProducts, updateProduct } from "../controllers/productController.js";
 
 const router = express.Router();    
 
@@ -27,6 +27,9 @@ router.get('/section-two',getSectionTwoProducts);
 
 
 // * fetching the products for pagination
-
 router.get('/get-k-products',getkProducts);
+
+
+// * fetching the product based on category
+router.get('/get-product-by-category/:id',getCategoryProducts);
 export default router;

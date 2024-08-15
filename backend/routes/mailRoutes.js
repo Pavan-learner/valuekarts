@@ -95,7 +95,7 @@ router.post('/book-mail', async (req,res) =>{
             <p>Customer Address: ${address}</p>
             <p>Customer Phone: +91 ${phone}</p>
             <p>Customer Email: ${email}</p>
-            <p>Customer Date: ${date}</p>
+            <p>Order Date: ${date}</p>
             Have Good day !!!
           `
           };

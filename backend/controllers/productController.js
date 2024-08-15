@@ -266,6 +266,8 @@ export const getSectionTwoProducts = async (req, res) => {
   }
 };
 
+
+// * function for pagination products.
 export const getkProducts = async (req, res) => {
   const { page = 1, limit = 10, category } = req.query;
 
@@ -284,3 +286,16 @@ export const getkProducts = async (req, res) => {
     totalProducts,
   });
 };
+
+
+// * function for sending the products based on the category.
+
+export const getCategoryProducts = async(req,res) =>{
+  try {
+    const { id } = req.params;
+    const products = await productModel.find({ category: id });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

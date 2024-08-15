@@ -6,6 +6,7 @@ import {
   getUserController,
   otpVerification,
   updateProfileController,
+  getUsersListController,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleware.js";
 
@@ -33,6 +34,9 @@ router.get('/get-user/:id',requireSignin,getUserController)
 
 
 // ! This routes is for user profile update.
-
 router.put('/update-user/:id',requireSignin,updateProfileController)
+
+
+// * this route is getting all users
+router.get('/get-users',requireSignin,isAdmin,getUsersListController);
 export default router;

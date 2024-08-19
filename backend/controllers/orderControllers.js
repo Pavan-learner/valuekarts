@@ -106,3 +106,30 @@ export const cancelOrderController = async(req,res) =>{
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+
+export const returnOrderController = async (req,res) =>{
+  try {
+    const id = req.params.id;
+    const reason = req.body.reason;
+
+    const order = await orderModel.findById(id);
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    if (order.status === 'Return' || order.status === 'Returned') {
+      return res.status(400).json({ message: 'Order is already returned' });
+    }
+
+    order.status = 'Return';
+
+    order.reason = reason;
+    
+    await order.save();
+
+    res.status(200).json({ message: 'Order Return request submitted successfully', order });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}

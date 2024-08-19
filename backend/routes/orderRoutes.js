@@ -1,5 +1,5 @@
 import express from 'express';
-import { cancelOrderController, createOrderController, getAdminOrderController, getOrderDetailController, getOrdersController, updateOrderStatusController } from '../controllers/orderControllers.js';
+import { cancelOrderController, createOrderController, getAdminOrderController, getOrderDetailController, getOrdersController, returnOrderController, updateOrderStatusController } from '../controllers/orderControllers.js';
 import { isAdmin, requireSignin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -15,6 +15,8 @@ router.get('/get-order-detail/:id',requireSignin,isAdmin, getOrderDetailControll
 router.put('/update-order-status/:id',requireSignin,isAdmin,updateOrderStatusController);
 
 router.put('/cancel-order/:id',requireSignin,cancelOrderController);
+
+router.put('/return-order/:id',requireSignin,returnOrderController);
 
 
 export default router;

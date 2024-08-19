@@ -7,7 +7,7 @@ const router = express.Router();
 // * This route is for sending the order confirmation email
 
 router.post('/send-mail', async (req,res) =>{
-    const {name,email,address,products} = req.body;
+    const {name,email,phone,address,products} = req.body;
 
     const transporter = nodemailer.createTransport({
       service: 'gmail', // You can use other services like 'hotmail', 'yahoo', etc.
@@ -20,7 +20,7 @@ router.post('/send-mail', async (req,res) =>{
     });
     
     const productDetails = products.map(product => 
-      `<li>${product.name} - Quantity: ${product.qty}, Price: Rs.${product.price}</li>`
+      `<li>${product.id} - ${product.name} - Quantity: ${product.qty}, Price: Rs.${product.price}</li>`
     ).join('');
     
     // Set up email data
@@ -32,7 +32,9 @@ router.post('/send-mail', async (req,res) =>{
       html: `
       <h2>Order Confirmation</h2>
       <p>Thank you for your order, ${name}!</p>
-      <p>Address: ${address}</p>
+      <p>+91 ${phone}</p>
+      <p>Your order will be shipped to the following address:</p>
+      <p>${address}</p>
       <h3>Ordered Products:</h3>
       <ul>${productDetails}</ul>
     `

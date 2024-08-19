@@ -13,11 +13,14 @@ const Home = () => {
   const dispatch = useDispatch();
   const [loading, setloading] = useState(false);
 
+  const [imgLink, setImgLink] = useState([]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(clearBuy());
 
     fetchRecitems();
+    fetchinks();
   }, []);
 
   const [recItems, setRecItems] = useState([]);
@@ -36,13 +39,37 @@ const Home = () => {
     }
   };
 
+  const fetchinks = async () => {
+    setloading(true);
+    try {
+        const res = await axios.get(`${url}/api/v2/section/section-link`)
+        setImgLink(res.data.section);
+        setloading(false)
+
+    } catch (error) {
+      setloading(false)
+    }
+  }
+
+
+  if(loading){
+
+    return <Loader_2/>
+
+  }
+
   return (
     <>
       <section className="pt-3">
         <div className="container">
           <div className="row gx-3 main-content">
             <main className="col-lg-9">
-              <div className="card-banner p-5 bg-warning rounded-5 section-crousel">
+              <div className="card-banner p-5 bg-warning rounded-5" style={{
+                backgroundImage: `url(${imgLink[0]?.image[0]})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+              }}>
                 <div className="c-1">
                   <h2 className="text-white">
                     Great products with <br />
@@ -65,7 +92,15 @@ const Home = () => {
 
             <aside className="col-lg-3">
               <div className="card-banner h-100 rounded-5 c-2">
-                <div className="card-body text-center pb-5 service-image service-res">
+                <div className="card-body text-center pb-5 service-image service-res" style={
+                  {
+                    backgroundImage: `url(${imgLink[0]?.image[1]})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                  }
+                }
+                >
                   <div>
                     <h5 className="pt-5 text-white">
                       Urban Solutions Simplified
@@ -74,7 +109,7 @@ const Home = () => {
                       Your urban lifestyle, our tailored solutions
                     </p>
                     <Link
-                      to={`/urban-labour`}
+                      to={`/urban-services`}
                       href="service.html"
                       className="btn btn-outline-light bg-light text-primary"
                     >

@@ -31,17 +31,19 @@ const Grid_Product = ({ item }) => {
         <div className="card w-100 my-2 shadow-2-strong">
           <div className="my-card-img-container">
             {item.imgLink && (
-              <img
-                src={item.imgLink[0]}
-                alt={item.name}
-                className="card-img-top rounded-2 p-1 w-100"
-                style={{
-                  width: "90%",
-                  height: "90%",
-                  objectFit: "contain",
-                  // padding: "10px",
-                }}
-              />
+              <Link to={`/product/${item._id}`}>
+                <img
+                  src={item.imgLink[0]}
+                  alt={item.name}
+                  className="card-img-top rounded-2 p-1 w-100"
+                  style={{
+                    width: "90%",
+                    height: "90%",
+                    objectFit: "contain",
+                    // padding: "10px",
+                  }}
+                />
+              </Link>
             )}
           </div>
           <div className="card-body d-flex flex-column">
@@ -53,38 +55,38 @@ const Grid_Product = ({ item }) => {
             </div>
             <p className="card-text text-truncate">{item.name}</p>
             <div className="">
-            <div className="d-flex gap-2 buttons">
-              {cartItems.some((p) => p._id === item._id) ? (
-                <button
-                  type="button"
-                  className="btn btn-danger btn-sm w-100 my-card-button p-2 custom-button"
-                  onClick={() => {
-                    dispatch(removeFromCart(item));
-                    removeCart(item);
-                  }}
-                >
-                  Remove from Cart
-                </button>
-              ) : (
-                <>
+              <div className="d-flex gap-2 buttons">
+                {cartItems.some((p) => p._id === item._id) ? (
                   <button
-                    className="btn btn-outline-primary btn-sm my-card-button p-2 custom-button"
+                    type="button"
+                    className="btn btn-danger btn-sm w-100 my-card-button p-2 custom-button"
                     onClick={() => {
-                      dispatch(addToCart(item));
-                      addCart(item);
+                      dispatch(removeFromCart(item));
+                      removeCart(item);
                     }}
                   >
-                    Add to Cart
+                    Remove from Cart
                   </button>
-                  <button
-                    className="btn btn-primary btn-sm my-card-button custom-button"
-                    onClick={() => handelbuyNoww(item)}
-                  >
-                    Buy Now
-                  </button>
-                </>
-              )}
-            </div>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-outline-primary btn-sm my-card-button p-2 custom-button"
+                      onClick={() => {
+                        dispatch(addToCart(item));
+                        addCart(item);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                    <button
+                      className="btn btn-primary btn-sm my-card-button custom-button"
+                      onClick={() => handelbuyNoww(item)}
+                    >
+                      Buy Now
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

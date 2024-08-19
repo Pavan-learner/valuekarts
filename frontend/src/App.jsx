@@ -45,6 +45,11 @@ import CreateVechicle from "./Pages/admin/vechicle/CreateVechicle";
 import UpdateVechicle from "./Pages/admin/vechicle/UpdateVechicle";
 import ReadVechicle from "./Pages/admin/vechicle/ReadVechicle";
 import CategoryBased from "./Pages/CategoryBased";
+import SectionLinks from "./Pages/admin/sections/SectionLinks";
+import LinkTable from "./Pages/admin/sections/LinkTable";
+import LabourList from "./Pages/admin/labour/LabourList";
+import CreateLabour from "./Pages/admin/labour/CreateLabour";
+import UpdateLabour from "./Pages/admin/labour/UpdateLabour";
 
 function App() {
   const dispatch = useDispatch();
@@ -125,6 +130,7 @@ function App() {
               <Route path="admin/create-event" element={<CreateEvent />} />
               <Route path="admin/event-list" element={<EventList />} />
               <Route path="admin/update-event/:id" element={<UpdateEvent />} />
+
               // ! Vechicle
               <Route
                 path="admin/create-vehicle"
@@ -134,7 +140,21 @@ function App() {
                 path="admin/update-vehicle/:id"
                 element={<UpdateVechicle />}
               />
+              
               <Route path="admin/vehicle-list" element={<ReadVechicle />} />
+
+
+              // ! Section Links
+              <Route path = 'admin/create-link' element = {<SectionLinks/>} />
+              <Route path = 'admin/section-links' element = {<LinkTable/>} />
+
+
+              // ! Labour
+              <Route path="admin/labour-list" element={<LabourList />} />
+              <Route path = "admin/create-labour" element = {<CreateLabour/>} />
+              <Route path = 'admin/update-labour/:id' element = {<UpdateLabour/>} />
+
+
             </Route>
 
             // * Public Routes
@@ -221,7 +241,7 @@ function App() {
               }
             />
             <Route
-              path="/urban-labour"
+              path="/urban-services"
               element={
                 <Layout>
                   <Labour />{" "}

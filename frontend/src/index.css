@@ -6,12 +6,9 @@
     background-color: #f87217;
 }
 
-.section-crousel{
-    background-image: url("https://plus.unsplash.com/premium_photo-1666739387925-5841368970a7?q=80&w=1653&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-}
 
 #logoimg{
-    width: 100px;
+    width: 140px;
     height: fit-content;
     mix-blend-mode: multiply;
 
@@ -65,7 +62,7 @@
     }
 
     #logoimg{
-        width: 70px;
+        width: 90px;
         height: fit-content;
         /* margin-right: 2vw; */
 
@@ -272,3 +269,17 @@
 .product-description.expanded {
   max-height: none; /* Remove the height restriction when expanded */
 }
+
+
+.delete-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+}
+
+.delete-icon {
+  font-size: 30px;
+  margin-left: 10px;
+} 

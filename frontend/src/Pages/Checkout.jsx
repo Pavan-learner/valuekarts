@@ -9,6 +9,8 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import { url } from "../Components/backend_link/data";
 
+import { MdDelete } from "react-icons/md";
+
 const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,18 +38,16 @@ const Checkout = () => {
   // * this state is used to get the new address of the user.
   const [newAddress, setNewAddress] = useState("");
 
-
   //* this state is for manageing the Phone.
 
-  const [phone, setPhone] = useState('')
-
+  const [phone, setPhone] = useState("");
 
   // * These state is used to manage the mailing list.
   const [mailItems, setmailItems] = useState([]);
 
   const [value, setValue] = useState("");
 
-  const [mail, setMail] = useState('')
+  const [mail, setMail] = useState("");
 
   useEffect(() => {
     setTotal(
@@ -55,6 +55,12 @@ const Checkout = () => {
     );
   }, [cartItems]);
 
+
+  useEffect(() => {
+    setTotal(
+      buyItems.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0)
+    );
+  }, [buyItems]);
   // * when this page renders why this page is rendered and which product details i have to send to the seller.
   useEffect(() => {
     if (buyItem.length > 0) {
@@ -109,14 +115,14 @@ const Checkout = () => {
       console.log("User is not authenticated");
       return;
     }
-    
+
     try {
       const res = await axios.put(
         `${url}/api/v2/auth/update-user/${auth.user._id}`,
         {
           address: data.address,
           phone: data.phone,
-          email: data.email
+          email: data.email,
         },
         {
           headers: {
@@ -131,12 +137,9 @@ const Checkout = () => {
     }
   };
 
-  const sendMail = async (data) =>{
+  const sendMail = async (data) => {
     try {
-      const res = await axios.post(
-        `${url}/api/v2/mail/send-mail`,
-        data
-      );
+      const res = await axios.post(`${url}/api/v2/mail/send-mail`, data);
       console.log("SUCCESS!", res.data);
 
       if (res.data.success) {
@@ -148,7 +151,7 @@ const Checkout = () => {
         "Something went wrong while confirming your order please try again later"
       );
     }
-  }
+  };
 
   // * it's an animation screen that confirms the order
   const orderConfirmed = () => {
@@ -170,21 +173,20 @@ const Checkout = () => {
 
     sendMail(data);
 
-  setTimeout(() => {
-    setLoading(false);
-  }, 1000);
-
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
-    
+
     // * this data is passed because we need to update the user profile.
-    let data  = {
-      address:address,
-      phone:phone,
-      email:mail
-    }
+    let data = {
+      address: address,
+      phone: phone,
+      email: mail,
+    };
     updateProfile(data);
 
     setLoading(true);
@@ -212,11 +214,10 @@ const Checkout = () => {
           address: address || newAddress,
           phone: phone,
           products: mailItems,
-        })
+        });
         setTimeout(() => {
-        setLoading(false);
-        orderConfirmed();
-          
+          setLoading(false);
+          orderConfirmed();
         }, 1000);
       }
     } catch (err) {
@@ -271,6 +272,11 @@ const Checkout = () => {
     }
   };
 
+
+  const handelDeleteBuyItem  = (id) =>{
+    setBuyItems(buyItems.filter((item) => item._id !== id));
+  }
+
   return loading ? (
     <Loader />
   ) : (
@@ -319,9 +325,7 @@ const Checkout = () => {
                                     placeholder="Enter new Address"
                                     aria-label="Your Address"
                                     value={address}
-                                    onChange={(e) =>
-                                      setAddress(e.target.value)
-                                    }
+                                    onChange={(e) => setAddress(e.target.value)}
                                   />
                                 </div>
                                 <p
@@ -343,7 +347,8 @@ const Checkout = () => {
                               </div>
                             )}
 
-                            {(auth?.user.phone.startsWith("12345") || auth?.user.phone === '') && (
+                            {(auth?.user.phone.startsWith("12345") ||
+                              auth?.user.phone === "") && (
                               <div className="form-group mb-4">
                                 <input
                                   type="text"
@@ -357,9 +362,8 @@ const Checkout = () => {
                               </div>
                             )}
 
-                            {
-                              (auth?.user.email === null) && (
-                                <div className="form-group mb-4">
+                            {auth?.user.email === null && (
+                              <div className="form-group mb-4">
                                 <input
                                   type="email"
                                   className="form-control"
@@ -370,8 +374,7 @@ const Checkout = () => {
                                   required
                                 />
                               </div>
-                              )
-                            }
+                            )}
 
                             <h4 className="mt-4">Payment</h4>
                             <div className="form-check">
@@ -549,10 +552,25 @@ const Checkout = () => {
               </h4>
               {buyItems.length > 0
                 ? buyItems.map((item) => (
-                    <CheckoutProduct prod={item} key={item._id} />
+                    <>
+                      <div
+                        className="d-flex justify-content-between align-items-center"
+                        key={item._id}
+                      >
+                        <CheckoutProduct prod={item} />
+                        <div className="delete-icon-container">
+                          <MdDelete className="cursor-pointer text-danger delete-icon" onClick={(e) => {
+                             e.stopPropagation();
+                            handelDeleteBuyItem(item._id)
+                            }} />
+                        </div>
+                      </div>
+                    </>
                   ))
                 : cartItems.map((item) => (
-                    <CheckoutProduct prod={item} key={item._id} />
+                    <>
+                      <CheckoutProduct prod={item} key={item._id} />
+                    </>
                   ))}
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (Rs)</span>

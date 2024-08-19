@@ -3,6 +3,9 @@ import Card from './Card'
 import { useSelector } from "react-redux";
 import { IoCall } from "react-icons/io5";
 import Loader from '../../Components/Loading/Loader';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { url } from '../../Components/backend_link/data';
 
 
 export const Ride = () => {
@@ -13,13 +16,29 @@ export const Ride = () => {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false)
 
+  const [vehicle, setVehicle] = useState([]);
+
   useEffect(() => {
     if (auth?.user) {
       setcheck(true);
     } else {
       setcheck(false);
     }
+
+    fetchVehciles();
   }, []);
+
+
+  const fetchVehciles = async () => {
+    try {
+      const res = await axios.get(`${url}/api/v2/vehicle/get-vehicles`);
+      console.log(res.data.vechicle);
+      setVehicle(res.data.vechicle);
+      
+    } catch (error) {
+      toast.error("Internal sever error");
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,12 +46,9 @@ export const Ride = () => {
     console.log("Username:", username);
     console.log("Phone:", phone);
 
-    setLoading(true)
 
-    setTimeout(() => {
-      setLoading(false)
-    setcheck(true);
-    }, 1000)
+
+
   };
 
 
@@ -54,8 +70,11 @@ export const Ride = () => {
         </div>
         <h3 className="fw-bold">Vehicle Details and Price</h3>
 
-        <Card title = "Etios,Swift,Dzire" kmrate="12" bata = "350"/>
-        <Card title = "Toyota Crysta" kmrate="15" bata = "400"/> 
+        {
+          vehicle.map((item) => (
+            <Card item = {item} key = {item._id} />
+          ))
+        }
 
 
         {check ? (

@@ -57,11 +57,15 @@ const OrderList = () => {
   };
 
   const statusColors = {
-    Delivered: "success",
-    Cancelled: "danger",
+    Not_Processed: "secondary",
     Processing: "warning",
     Shipped: "info",
-    "Not Processed": "secondary",
+    Delivered: "success",
+    Cancelled: "danger",
+    Return: "danger",
+    Returned: "success",
+
+    // Add more status colors as needed
   };
 
   return (

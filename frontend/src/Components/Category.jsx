@@ -35,7 +35,12 @@ const Category = () => {
       return "/book-ride";
     } else if (categoryName === "Schedule Event") {
       return "/event";
-    } else {
+    } 
+    else if(categoryName === "Urban Services")
+      {
+        return "/urban-services";
+      }
+      else {
       return `/category-products/${id}`;
     }
   };

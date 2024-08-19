@@ -20,7 +20,8 @@ const CreateProduct = () => {
   const [shipping, setShipping] = useState('');
   const [imageLinks, setImageLinks] = useState([""]);
   const [variety, setVariety] = useState([""]);
-  
+  const [id, setId] = useState("");
+
  
 
 
@@ -51,8 +52,6 @@ const CreateProduct = () => {
     setLoading(true);
     try {
       const productData = new FormData();
-
-
   
       productData.append("name", name);
       productData.append("category", categoryValue);
@@ -61,6 +60,7 @@ const CreateProduct = () => {
       productData.append("stock", stock);
       productData.append("shipping", shipping);
       productData.append("photo", photo);
+      productData.append('id', id)
       productData.append("imgLink", JSON.stringify(imageLinks));
       productData.append("variety", JSON.stringify(variety));
 
@@ -138,6 +138,17 @@ const CreateProduct = () => {
           </Link>
         </span>
         <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
+
+        <div className="mb-3">
+            <label className="form-label">Product Custom ID</label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => setId(e.target.value)}
+            />
+          </div>
+
+
           <div className="mb-3">
             <label className="form-label">Product Name</label>
             <input

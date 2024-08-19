@@ -14,6 +14,8 @@ const Labour_Card = ({item}) => {
   const events = useSelector((state) => state.cart.events);
   const [startDate, setStartDate] = useState(new Date());
 
+  const [selectedDate, setselectedDate] = useState(new Date());
+
   const auth = useSelector((state) => state.auth);
 
   // * for showing pop up model
@@ -30,77 +32,61 @@ const Labour_Card = ({item}) => {
   const handleClose = () => setShowModal(false);
 
   const handelAdd = () => {
-    toast.success("Your Event is added to cart");
+    toast.success("Your Service is added to cart");
   };
 
   const handelRemove = () => {
-    toast.success("Your Event is removed from cart");
+    toast.success("Your Service is removed from cart");
   };
 
   return (
     <>
-      <div className="col-lg-3 col-md-6 col-sm-12 my-card-2" key={item.id}>
+      <div className="col-lg-3 col-md-4 col-sm-6 col-12 mb-4" key={item?._id}>
         <Toaster position="top-center" reverseOrder={false} />
-        <div className="card my-2 shadow-0 product-img card-action my-card">
-          <Link to={`/product/${item.id}`}>
+        <div className="custom-card d-flex flex-column h-100">
+          <Link
+            className="custom-card-image-container"
+          >
             <img
-              src={item.imgSrc}
-              className="card-img-top rounded-2  w-100"
-              alt={item.pname}
-              style={{
-            
-                height: "20vh",
-                width: "100%",
-                borderRadius: "10px",
-                objectFit: "cover",
-
-              }}
+              src={item?.image}
+              className="custom-card-image"
+              alt={item?.name}
             />
           </Link>
-          <div className="card-body p-0 pt-2">
-            {/* <h5 className="card-title fw-bold">Rs.{item.rate}</h5> */}
-            <p className="card-text mb-0">{item.pname}</p>
-            {/* <p>Details: {item.description}</p> */}
-
-            <div className="d-flex align-items-center mb-2">
-            <label className="me-2 fw-bold">Select Date:</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              className="form-control datepicker-responsive"
-              dateFormat="dd/MM/yyyy"
-              placeholderText="Select a date"
-              popperPlacement="bottom-start"
-              popperModifiers={{
-                offset: {
-                  enabled: true,
-                  offset: "5px, 10px"
-                },
-                preventOverflow: {
-                  enabled: true,
-                  escapeWithReference: false,
-                  boundariesElement: "viewport"
-                }
-              }}
-            />
-          </div>
-
-          <div className="buttons d-flex flex-column align-items-stretch">
-            {events.some((p) => p.id === item.id) ? (
-              <button
-                type="button"
-                className="btn btn-danger m-1 text-light fw-bold border border-danger custom-button"
-                onClick={() => {
-                  dispatch(removeEvent(item));
-                  handelRemove();
+          <div className="custom-card-body d-flex flex-column justify-content-between">
+            <div>
+              <p className="custom-card-text">{item?.name}</p>
+            </div>
+            <div className="d-flex flex-column flex-md-row align-items-center p-2">
+              <label className="me-2 fw-bold mb-2 mb-md-0">Select Date:</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  setselectedDate(date);
                 }}
-              >
-                Remove from Cart
-              </button>
-            ) : (
-
+                className="form-control datepicker-responsive w-100 custom-datepicker"
+                dateFormat="dd/MM/yyyy"
+                placeholderText="Select a date"
+                popperPlacement="bottom-start"
+              />
+            </div>
+            <div className="buttons d-flex flex-column flex-md-row align-items-stretch mt-3">
+              {events.some((p) => p._id === item._id) ? (
                 <button
-                  className="btn btn-primary m-1 text-light fw-bold border border-primary custom-button"
+                  type="button"
+                  className="btn custom-remove-button"
+                  onClick={() => {
+                    dispatch(removeEvent(item));
+                    handelRemove();
+                  }}
+                >
+                  Remove from Cart
+                </button>
+              ) : (
+                <>
+                <button
+                  className="btn custom-add-button mx-1"
                   onClick={() => {
                     dispatch(addEvent(item));
                     handelAdd();
@@ -108,22 +94,27 @@ const Labour_Card = ({item}) => {
                 >
                   Add to Cart
                 </button>
-            )}
-
-            {!auth.token ? (
-              <>
-                <button className="btn btn-light m-1 fw-bold custom-button" onClick={handleShow}>
-                  Book Now
-                </button>
-                {showModal && <PopUp show={showModal} handleClose={handleClose} />}
-              </>
-            ) : (
-              <button className="btn btn-light m-1 fw-bold custom-button" disabled onClick={handleShow}>
+                <button
+                className="btn custom-book-button"
+                onClick={() => {
+                  handleShow();
+                }}
+              >
                 Book Now
               </button>
-            )}
+                </>
+              )}
+
+
+              {showModal && (
+                <PopUp
+                  show={showModal}
+                  date={selectedDate}
+                  handleClose={handleClose}
+                />
+              )}
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </>

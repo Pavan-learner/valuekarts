@@ -17,6 +17,7 @@ const UpdateProduct = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
+  const [id, setId] = useState("");
   const [shipping, setShipping] = useState('');
   const [imageLinks, setImageLinks] = useState([""]);
   const [variety, setVariety] = useState([""]);
@@ -54,6 +55,7 @@ const UpdateProduct = () => {
       productData.append("description", description);
       productData.append("stock", stock);
       productData.append("shipping", shipping);
+      productData.append("id", id);
       if (photo) productData.append("photo", photo);
       productData.append("imgLink", JSON.stringify(imageLinks));
       productData.append("variety", JSON.stringify(variety));
@@ -126,6 +128,8 @@ const UpdateProduct = () => {
       setShipping(product.shipping || '');
       setImageLinks(product.imgLink || ['']);
       setVariety(product.variety || ['']);
+
+      setId(product.id || '');
     }
   }, [product]);
 
@@ -158,6 +162,17 @@ const UpdateProduct = () => {
           </Link>
         </span>
         <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
+
+        <div className="mb-3">
+            <label className="form-label">Product Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
+          </div>
+    
           <div className="mb-3">
             <label className="form-label">Product Name</label>
             <input
@@ -310,6 +325,58 @@ const UpdateProduct = () => {
             </button>
           </div>
 
+          <div>
+              <h3>Images</h3>
+              <div  
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {imageLinks.map((img, index) => (
+                      <div  
+                        key={index}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginRight: "10px",
+                          width: "100%",
+                        }}
+                      >
+                        <img
+                          src={img}
+                          alt={`Image ${index + 1}`}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
           <div
             className=""
             style={{
@@ -317,9 +384,11 @@ const UpdateProduct = () => {
               justifyContent: "center",
               alignItems: "center",
               width: "100%",
+              marginTop: "20px",
             }}
           >
-            <button className="btn btn-primary w-[30%]" type="submit">
+            
+           <button className="btn btn-primary w-[30%]" type="submit">
               {loading ? "Updating..." : "Update Product"}
             </button>
           </div>

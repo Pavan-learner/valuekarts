@@ -20,14 +20,14 @@ const SearchInput = () => {
     <>
       <div className="col-lg-5 col-md-12 col-12">
         <div
-          className="input-group float-center border rounded-pill"
+          className="input-group float-center border rounded-pill rounded-pill"
           style={{ border: "none" }}
         >
-          <form onSubmit={handelInput} className="form-outline">
+          <form onSubmit={handelInput} className="form-outline  ">
             <input
               type="search"
               id="floatingInput"
-              className="form-control me-2"
+              className="form-control me-2 "
               aria-label="Search"
               value={keyword}
               onChange={(e) => dispatch(setKeyword(e.target.value))}

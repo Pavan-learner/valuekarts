@@ -60,8 +60,7 @@ const Admin_Header = () => {
               <li className="nav-item">
                 <Link
                   to={"/dashboard/admin/product-list"}
-                  className="nav-link"
-                  href="/products"
+                  className="nav-link text-black"
                 >
                   Products
                 </Link>
@@ -69,8 +68,7 @@ const Admin_Header = () => {
               <li className="nav-item">
                 <Link
                   to={"/dashboard/admin/category-list"}
-                  className="nav-link"
-                  href="/categories"
+                  className="nav-link text-black"
                 >
                   Categories
                 </Link>
@@ -78,7 +76,7 @@ const Admin_Header = () => {
               <li className="nav-item">
                 <Link
                   to={"/dashboard/admin/event-list"}
-                  className="nav-link"
+                  className="nav-link text-black"
                 >
                   Events
                 </Link>
@@ -86,9 +84,27 @@ const Admin_Header = () => {
               <li className="nav-item">
                 <Link
                   to={"/dashboard/admin/vehicle-list"}
-                  className="nav-link"
+                  className="nav-link text-black"
                 >
                   Vehicles
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link
+                  to={"/dashboard/admin/labour-list"}
+                  className="nav-link text-black"
+                >
+                  Labour
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link
+                  to={"/dashboard/admin/create-link"}
+                  className="nav-link text-black"
+                >
+                  Section Links
                 </Link>
               </li>
              

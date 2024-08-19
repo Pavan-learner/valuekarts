@@ -5,73 +5,71 @@ import { useSelector } from "react-redux";
 import { url } from "../Components/backend_link/data";
 import Loader from "../Components/Loading/Loader";
 import DeletePopup from "../Components/popups/DeletePopup";
+import ReturnPopup from "../Components/popups/ReturnPopup";
 
 const OrderTracking = () => {
-  const [orders, setOrders] = useState([]); // Changed to plural 'orders' for consistency
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showReturnModal, setShowReturnModal] = useState(false);
 
   const auth = useSelector((state) => state.auth);
 
-  console.log(auth.token);
-
-  const [loading, setLoading] = useState(false);
-
   const fetchOrders = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(`${url}/api/v2/order/get-orders`, {
         headers: {
-          Authorization: auth.token, // Ensure proper token format
+          Authorization: auth.token,
         },
       });
-
-      console.log("Orders fetched successfully:", res.data);
-      setOrders(res.data); // Store fetched orders in state
+      setOrders(res.data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching orders:", error);
       toast.error("An error occurred while fetching orders");
+      setLoading(false);
     }
   };
-  const [showModal, setShowModal] = useState(false);
-
-  const handleShow = () => {
-    setShowModal(true);
-  };
-
-  const handleClose = () => setShowModal(false);
 
   useEffect(() => {
     if (auth?.token) {
       fetchOrders();
     }
-  }, []); // Ensure it runs only once
-
-  const [Status, setStatus] = useState("");
+  }, [auth?.token]);
 
   const getStatusClass = (status) => {
-    switch (status) {
-      case "Processing":
-        return "text-warning";
-      case "Shipped":
-        return "text-info";
-      case "Delivered":
-        return "text-success";
-      case "Cancelled":
-        return "text-danger";
-      default:
-        return "text-secondary";
-    }
+    const statusClasses = {
+      Processing: "text-warning",
+      Shipped: "text-info",
+      Delivered: "text-success",
+      Cancelled: "text-danger",
+      Default: "text-secondary",
+    };
+    return statusClasses[status] || statusClasses.Default;
   };
 
   const getProgressPercentage = (status) => {
-    switch (status) {
-      case "Processing":
-        return "25%";
-      case "Shipped":
-        return "50%";
-      case "Delivered":
-        return "100%";
-      default:
-        return "0%";
+    const progressPercentages = {
+      Processing: "25%",
+      Shipped: "50%",
+      Delivered: "100%",
+      Cancelled: "0%",
+    };
+    return progressPercentages[status] || "0%";
+  };
+
+  const handleShowModal = (type) => {
+    if (type === "delete") {
+      setShowDeleteModal(true);
+    } else if (type === "return") {
+      setShowReturnModal(true);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowDeleteModal(false);
+    setShowReturnModal(false);
   };
 
   if (loading) {
@@ -111,6 +109,7 @@ const OrderTracking = () => {
                     {getProgressPercentage(order.status)}
                   </div>
                 </div>
+
                 <h5 className="mt-4">Product:</h5>
                 <ul className="list-group">
                   {order.products.map((item) => (
@@ -120,26 +119,57 @@ const OrderTracking = () => {
                   ))}
                 </ul>
 
-                {order.status == "Cancelled" ? (
+                {order.status === "Cancelled" ? (
                   <h3 className="text-center mt-4">Order cancelled</h3>
                 ) : (
                   <>
-                    {order.status == "Delivered" ? (
-                      <button className="btn btn-danger mt-2 align-self-end">
+                    {order.status === "Delivered" && (
+                      <button
+                        className="btn btn-danger mt-2 align-self-end"
+                        onClick={() => handleShowModal("return")}
+                      >
                         Return
                       </button>
-                    ) : (
-                      <button className="btn btn-primary mt-4" onClick={handleShow}>
+                    )}
+
+                    {(order.status !== "Return" &&
+                      order.status !== "Returned" &&
+                      order.status !== "Cancelled" &&
+                      order.status !== "Delivered") && (
+                      <button
+                        className="btn btn-danger mt-2 align-self-end"
+                        onClick={() => handleShowModal("delete")}
+                      >
                         Cancel Order
                       </button>
                     )}
                   </>
                 )}
 
-                {showModal && (
+                {order.status === "Return" && (
+                  <h3 className="text-center mt-4">
+                    Your request for return is under process
+                  </h3>
+                )}
+
+                {order.status === "Returned" && (
+                  <h3 className="text-center mt-4">
+                    Your order has been returned
+                  </h3>
+                )}
+
+                {showDeleteModal && (
                   <DeletePopup
-                    show={showModal}
-                    handleClose={handleClose}
+                    show={showDeleteModal}
+                    handleClose={handleCloseModal}
+                    id={order._id}
+                  />
+                )}
+
+                {showReturnModal && (
+                  <ReturnPopup
+                    show={showReturnModal}
+                    handleClose={handleCloseModal}
                     id={order._id}
                   />
                 )}

@@ -20,7 +20,7 @@ router.post('/send-mail', async (req,res) =>{
     });
     
     const productDetails = products.map(product => 
-      `<li>${product.id} - ${product.name} - Quantity: ${product.qty}, Price: Rs.${product.price}</li>`
+      `<li>${product.id} - ${product.name} - Quantity: ${product.qty}, Price: Rs.${product.price} , Variety: ${product.selectedVariety}</li>`
     ).join('');
     
     // Set up email data
@@ -32,7 +32,7 @@ router.post('/send-mail', async (req,res) =>{
       html: `
       <h2>Order Confirmation</h2>
       <p>Thank you for your order, ${name}!</p>
-      <p>+91 ${phone}</p>
+      <p>${phone}</p>
       <p>Your order will be shipped to the following address:</p>
       <p>${address}</p>
       <h3>Ordered Products:</h3>
@@ -131,5 +131,55 @@ router.post('/book-mail', async (req,res) =>{
         })
     }
 })
+
+
+router.post('/enquiry-mail', async (req,res) =>{
+    const {name,phone,email} = req.body;
+
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail', // You can use other services like 'hotmail', 'yahoo', etc.
+        secure: true,
+        port : 465,
+        auth: {
+          user: process.env.MAIL_USER, // Your email address
+          pass: process.env.MAIL_PASS // Your email password
+        }
+      });
+
+      let mailOptions = {
+        from: process.env.MAIL_USER, // Sender address
+        to: [process.env.ADMIN_MAIL], // List of recipients
+        subject: 'New Enquiry from monoking.in <notreplay>', // Subject line
+        text: 'We have given the contact details', // Plain text body
+        html: `
+        <h2>New Vehicle Enquiry</h2>
+        <p>User Name: ${name}</p>
+        <p>User Phone: +91 ${phone}</p>
+      
+        Have a Good day !!!
+      `
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log('Error occurred:', error);
+          return res.status(500).send('Error sending email');
+        }
+        return res.status(200).send({
+          success:true,
+          message:'Email sent successfully' 
+        });
+      });
+
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        success:false,
+        message:'Internal server error'
+      })
+    }
+});
+
 
 export default router;

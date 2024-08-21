@@ -6,6 +6,7 @@ const router = express.Router();
 
 
 router.get('/get-events',getEventsController);
+
 router.get('/get-event/:id',getSingleEvent);
 
 router.post('/create-event',requireSignin,isAdmin,createEventController);

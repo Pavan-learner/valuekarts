@@ -8,13 +8,13 @@ export const registerController = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
     // validation
-    if ((!phone || !email) && !password && !name ) {
+    if ((!phone || !email) && !password && !name) {
       return res.send({ message: "All fields are required" });
     }
 
     // * Check if the use already exists or not
 
-    if(email){
+    if (email) {
       const existingUser = await userModel.findOne({ email });
       if (existingUser) {
         return res.status(200).send({
@@ -22,15 +22,15 @@ export const registerController = async (req, res) => {
           message: "User already exists",
         });
       }
-    } else if(phone){
+    } else if (phone) {
       const existingPhone = await userModel.findOne({ phone });
       if (existingPhone) {
         return res.status(200).send({
           success: false,
           message: "User already exists",
         });
+      }
     }
-  }
 
     // * Registering the user
 
@@ -46,8 +46,8 @@ export const registerController = async (req, res) => {
 
     await user.save();
 
-     // * creating token
-     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    // * creating token
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -63,9 +63,8 @@ export const registerController = async (req, res) => {
         address: user.address,
         role: user.role,
       },
-      token
+      token,
     });
-
   } catch (error) {
     // console.log(error);
     res.status(400).send({
@@ -81,11 +80,12 @@ export const loginController = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
 
-
     console.log(email, phone, password);
-    
+
     if ((!email || !phone) && !password) {
-      return res.status(400).send({ message: "Email/Phone and Password are required" });
+      return res
+        .status(400)
+        .send({ message: "Email/Phone and Password are required" });
     }
 
     let user;
@@ -118,11 +118,10 @@ export const loginController = async (req, res) => {
         email: user.email,
         phone: user.phone,
         role: user.role,
-        address: 'India',
+        address: "India",
       },
       token,
     });
-
   } catch (error) {
     res.status(500).send({
       success: false,
@@ -140,7 +139,7 @@ export const otpController = async (req, res) => {
   const clientSecret = process.env.CLIENT_SECRET;
 
   let data = JSON.stringify({
-    phoneNumber: "91"+ phone,
+    phoneNumber: "91" + phone,
     otpLength: 6,
     channel: "SMS",
     expiry: 60,
@@ -158,15 +157,13 @@ export const otpController = async (req, res) => {
     data: data,
   };
 
-try
-{
-  const response = await axios.request(config);
-  const orderId = response.data.orderId; // Extracting the orderId from the response
-  res.status(200).json({ orderId });
-}
-    catch(error){
-      res.status(500).json({ error: error.message });
-    };
+  try {
+    const response = await axios.request(config);
+    const orderId = response.data.orderId; // Extracting the orderId from the response
+    res.status(200).json({ orderId });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // * OTP verification
@@ -174,20 +171,18 @@ export const otpVerification = async (req, res) => {
   try {
     const { phone, otp, orderId } = req.body;
 
-    console.log('Received OTP Verification Request:', { phone, otp, orderId });
-
     const clientId = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
 
     let data = JSON.stringify({
       orderId: orderId,
       otp: otp,
-      phoneNumber:  phone
+      phoneNumber: phone,
     });
 
     const config = {
       method: "POST",
-      maxBodyLength: Infinity,  // Corrected property name
+      maxBodyLength: Infinity, // Corrected property name
       url: "https://auth.otpless.app/auth/otp/v1/verify",
       headers: {
         clientId: clientId,
@@ -199,88 +194,109 @@ export const otpVerification = async (req, res) => {
 
     const response = await axios.request(config);
     res.status(200).json(response.data);
-    
   } catch (error) {
-    console.error("Error during OTP verification:", {
-      message: error.message,
-      stack: error.stack,
-      response: error.response ? error.response.data : 'No response data'
-    });
-
+    res.status(500).json({ error: error.message });
   }
 };
 
-export const getUserController = async(req,res) =>{
+// * resend Otp controller
+export const resendOtpcontroller = async (req, res) => {
+  const { orderId } = req.body;
+  console.log(orderId);
+
+  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
+
+  let data = JSON.stringify({
+    orderId: orderId,
+  });
+
+  const config = {
+    method: "POST",
+    maxBodyLength: Infinity, // Corrected property name
+    url: "https://auth.otpless.app/auth/otp/v1/resend",
+    headers: {
+      clientId: clientId,
+      clientSecret: clientSecret,
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
   try {
-    const {id} = req.params;
+    const response = await axios.request(config);
+    const orderId = response.data.orderId; // Extracting the orderId from the response
+    res.status(200).json({ orderId });
+  } catch (error) {
+    res.status(500).send("Error while resending the otp");
+  }
+};
+
+export const getUserController = async (req, res) => {
+  try {
+    const { id } = req.params;
     const user = await userModel.findById(id);
 
     res.status(200).send({
-      success:true,
-      user
-    })
-
+      success: true,
+      user,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      message:"internal server error"
-    })
+      message: "internal server error",
+    });
   }
-}
+};
 
-export const updateProfileController = async(req,res) =>{
+export const updateProfileController = async (req, res) => {
   try {
-    const {name, email, password, phone, address} = req.body;
+    const { name, email, password, phone, address } = req.body;
     const user = await userModel.findById(req.user._id);
-    if(name){   
+    if (name) {
       user.name = name;
     }
-    if(email){
+    if (email) {
       user.email = email;
     }
-    if(password){
+    if (password) {
       user.password = password;
     }
-    if(address){
+    if (address) {
       user.address = address;
     }
-    if(phone){  
+    if (phone) {
       user.phone = phone;
     }
 
     await user.save();
     res.status(200).send({
-      success:true,
-      message:"Profile Updated Successfully",
-      user
-    })
-
+      success: true,
+      message: "Profile Updated Successfully",
+      user,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      message:"internal server error"
-    })
+      message: "internal server error",
+    });
   }
-}
+};
 
-
-export const getUsersListController  = async(req,res) =>{  
-
+export const getUsersListController = async (req, res) => {
   try {
     const users = await userModel.find();
 
     res.status(200).send({
-      success:true,
-      count:users.length,
-      users
-    })
-    
+      success: true,
+      count: users.length,
+      users,
+    });
   } catch (error) {
     // console.log(error);
     res.status(500).send({
-      success:false,
-      message:"internal server error"
-    })
+      success: false,
+      message: "internal server error",
+    });
   }
-
-}
+};

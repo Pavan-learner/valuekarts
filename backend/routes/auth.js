@@ -7,6 +7,7 @@ import {
   otpVerification,
   updateProfileController,
   getUsersListController,
+  resendOtpcontroller
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleware.js";
 
@@ -19,6 +20,7 @@ router.post("/login", loginController);
 // * this routes is for sending the otp
 router.post("/send-otp",otpController);
 router.post("/verify",otpVerification);
+router.post('/resend-otp',resendOtpcontroller)
 
 // this is testing route for private route auntentication
 router.get("/userAuth", requireSignin, (req, res) => {

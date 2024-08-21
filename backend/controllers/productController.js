@@ -1,10 +1,11 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
 import fs from "fs";
+import { measureMemory } from "vm";
 
 export const createProduct = async (req, res) => {
   try {
-    const { id, name, description, price, category, stock, shipping, imgLink, variety } = req.fields;
+    const { id, name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge } = req.fields;
     const { photo } = req.files;
 
     if (!name || !description || !price || !category || !stock || !shipping) {
@@ -22,6 +23,8 @@ export const createProduct = async (req, res) => {
       category,
       stock,
       shipping,
+      originalPrice,
+      deliveryCharge
     });
 
     // Handle multiple image links
@@ -133,7 +136,7 @@ export const getProductPhoto = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { pid,name, description, price, category, stock, shipping, imgLink, variety } = req.fields;
+    const { pid,name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge } = req.fields;
     const { photo } = req.files;
 
     console.log(variety)
@@ -158,6 +161,8 @@ export const updateProduct = async (req, res) => {
     product.stock = stock;
     product.shipping = shipping;
     product.id = pid;
+    product.originalPrice = originalPrice;
+    product.deliveryCharge = deliveryCharge;
 
     // Handle photo update
     if (photo) {
@@ -260,7 +265,6 @@ export const getSectionOneProducts = async (req, res) => {
 export const getSectionTwoProducts = async (req, res) => {
   try {
     const products = await productModel.find().sort({ createdAt: 1 }).limit(4);
-    console.log("Section Two Products:", products); // Debugging line
     res.json(products);
   } catch (error) {
     console.error(error); // Log the error for debugging
@@ -299,5 +303,70 @@ export const getCategoryProducts = async(req,res) =>{
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+}
+
+
+// * user products ratings
+export const rateProductController = async (req, res) => {
+  const { id } = req.params;
+  const { rating } = req.body;
+  const userId = req.user._id;
+
+  try {
+    const product = await productModel.findById(id);
+
+    // Check if the user has already rated the product
+    const existingRating = product.ratings.find(r => r.user.toString() === userId.toString());
+    if (existingRating) {
+        existingRating.rating = rating; // Update existing rating
+    } else {
+        product.ratings.push({ user: userId, rating }); // Add new rating
+    }
+
+    await product.save();
+    res.status(200).json({ message: 'Rating submitted successfully.' });
+} catch (error) {
+    res.status(400).json({ error: 'Failed to submit rating.' });
+}
+
+}
+
+// * route for custom id search for the products
+
+export const searchAdminProducts = async(req,res) =>{
+  try {
+    const {id}  = req.body;
+
+    const product = await productModel.find({id:id})
+
+    res.status(200).json(product);
+    
+  } catch (error) {
+    res.status(500).send({
+      success:"false",
+      message:"Internal Server error"
+    })
+  }
+}
+
+
+// * this method is for showing the suggestion in the search bar
+export const getSuggestProducts = async (req,res) =>{
+  try {
+      const keyword = req.params.keyword;
+      const suggestions = await productModel.find({
+          name: { $regex: keyword, $options: 'i' }
+      }).select('name').limit(10); // Limit the number of suggestions
+
+      const suggestionList = suggestions.map(product => product.name);
+
+      res.status(200).json(suggestionList);
+
+  } catch (error) {
+    res.status(500).send({
+      success:false,
+      message:"Internal Server error"
+    })
   }
 }

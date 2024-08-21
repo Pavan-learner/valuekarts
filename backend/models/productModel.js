@@ -16,10 +16,19 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+
     description: {
       type: String,
       required: true,
     },
+
+    // * Original price
+
+    originalPrice: {
+      type: Number,
+    },
+
+    // * discounted price
     price: {
       type: Number,
       required: true,
@@ -49,8 +58,10 @@ const productSchema = mongoose.Schema(
     },  
 
     photo:{
-      type: String,
+      data: Buffer,
+      contentType: String
     },
+
     // This is for admin purpose 
     stock: {
       type: Number,
@@ -64,7 +75,24 @@ const productSchema = mongoose.Schema(
       default: '4-5 days delivery',
       required: true,
     },
+
+     // * This is for handling the delivery charges.
+
+     deliveryCharge: {
+      type: Number,
+      default: 0
+    },
+
+    // * This is for storing the user ratings abour admin products.
     
+    ratings: [
+      {
+          user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+          rating: { type: Number, required: true, min: 1, max: 5 }
+      }
+  ],
+
+  
   },
   { timestamps: true }
 );

@@ -13,6 +13,7 @@ import eventRoutes from "./routes/eventRoutes.js";
 import vechicleRoutes from './routes/vechicleRoute.js'
 import sectionRoutes  from './routes/sectionRoutes.js'
 import labourRoutes from './routes/labourRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
 
 dotenv.config();
 
@@ -32,6 +33,9 @@ app.use("/api/v2/event", eventRoutes);
 app.use('/api/v2/vehicle',vechicleRoutes);
 app.use('/api/v2/section',sectionRoutes);
 app.use('/api/v2/labour',labourRoutes);
+
+// * this route is for manging the cart actions.
+app.use('/api/v2/cart',cartRoutes)
 
 const PORT = process.env.PORT || 8080;
 

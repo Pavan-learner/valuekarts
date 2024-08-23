@@ -62,6 +62,7 @@ export const registerController = async (req, res) => {
         phone: user.phone,
         address: user.address,
         role: user.role,
+        cart: user.cart,
       },
       token,
     });
@@ -118,7 +119,8 @@ export const loginController = async (req, res) => {
         email: user.email,
         phone: user.phone,
         role: user.role,
-        address: "India",
+        address: "KA India",
+        cart: user.cart,
       },
       token,
     });
@@ -300,3 +302,20 @@ export const getUsersListController = async (req, res) => {
     });
   }
 };
+
+
+export const getRateUserListController = async(req,res) =>{
+  try {
+    const {id} = req.params;
+
+    const user = await userModel.findById(id);
+
+    res.status(200).send({
+      success: true,
+      name:user.name
+    })
+    
+  } catch (error) {
+    res.status(500).send("Internal server error")
+  }
+}

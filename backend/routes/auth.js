@@ -7,7 +7,8 @@ import {
   otpVerification,
   updateProfileController,
   getUsersListController,
-  resendOtpcontroller
+  resendOtpcontroller,
+  getRateUserListController
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleware.js";
 
@@ -41,4 +42,8 @@ router.put('/update-user/:id',requireSignin,updateProfileController)
 
 // * this route is getting all users
 router.get('/get-users',requireSignin,isAdmin,getUsersListController);
+
+// * this route is finding those who are rated the product
+
+router.get('/get-rated-user/:id',getRateUserListController)
 export default router;

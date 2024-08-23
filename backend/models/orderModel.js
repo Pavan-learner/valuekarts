@@ -15,10 +15,21 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true, // Consider adding this field if you need to store the address
   },
+
+
+  deliveryDate:{
+    type:Date
+  },
+
+  returnExpiryDate:{
+    type:Date
+  },
+
   total: {
     type: Number,
     required: true, // Consider adding this field if you want to store the total price
   },
+  
   status: {
     type: String,
     default: "Not Process",

@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const productSchema = mongoose.Schema(
   {
-    id:{
-        type: Number,
+    id: {
+      type: Number,
     },
 
     name: {
@@ -40,7 +40,7 @@ const productSchema = mongoose.Schema(
       ref: "Category",
       required: true,
     },
-    
+
     imgLink: {
       type: [String], // Array of strings
       default: [],
@@ -55,14 +55,14 @@ const productSchema = mongoose.Schema(
     qty: {
       type: Number,
       default: 0,
-    },  
-
-    photo:{
-      data: Buffer,
-      contentType: String
     },
 
-    // This is for admin purpose 
+    photo: {
+      data: Buffer,
+      contentType: String,
+    },
+
+    // This is for admin purpose
     stock: {
       type: Number,
       required: true,
@@ -72,27 +72,29 @@ const productSchema = mongoose.Schema(
 
     shipping: {
       type: String,
-      default: '4-5 days delivery',
+      default: "4-5 days delivery",
       required: true,
     },
 
-     // * This is for handling the delivery charges.
+    // * This is for handling the delivery charges.
 
-     deliveryCharge: {
+    deliveryCharge: {
       type: Number,
-      default: 0
+      default: 70,
     },
 
+    returnValid: {
+      type: Number,
+      default: 7,
+    },
     // * This is for storing the user ratings abour admin products.
-    
+
     ratings: [
       {
-          user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-          rating: { type: Number, required: true, min: 1, max: 5 }
-      }
-  ],
-
-  
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        rating: { type: Number, required: true, min: 1, max: 5 },
+      },
+    ],
   },
   { timestamps: true }
 );

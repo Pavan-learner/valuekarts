@@ -306,32 +306,6 @@ export const getCategoryProducts = async(req,res) =>{
   }
 }
 
-
-// * user products ratings
-export const rateProductController = async (req, res) => {
-  const { id } = req.params;
-  const { rating } = req.body;
-  const userId = req.user._id;
-
-  try {
-    const product = await productModel.findById(id);
-
-    // Check if the user has already rated the product
-    const existingRating = product.ratings.find(r => r.user.toString() === userId.toString());
-    if (existingRating) {
-        existingRating.rating = rating; // Update existing rating
-    } else {
-        product.ratings.push({ user: userId, rating }); // Add new rating
-    }
-
-    await product.save();
-    res.status(200).json({ message: 'Rating submitted successfully.' });
-} catch (error) {
-    res.status(400).json({ error: 'Failed to submit rating.' });
-}
-
-}
-
 // * route for custom id search for the products
 
 export const searchAdminProducts = async(req,res) =>{

@@ -1,38 +1,60 @@
-import cartModel from "../models/cartModel.js";
+import userModel from "../models/userModel.js";
 
-export const createCartController = async (req, res) => {
+export const addToCartController = async (req,res) => {
   try {
-    const { cart } = req.body;
-    const userId = req.user._id;
+    const {id} = req.params;
+    const {item} = req.body;
 
-    let userCart = await cartModel.findOne({ user: userId });
-    if (userCart) {
-      userCart.products = cart;
-    } else {
-      userCart = new cartModel({ user: userId, products: cart });
-    }
+    console.log(item);
 
-    await userCart.save();
+    const user = await userModel.findById(id);
+
+    user.cart.push(item);
+    await user.save();
+    res.status(200).send({
+      success: true,
+    })
+    
   } catch (error) {
-    res.status(500).send({
-      message: "Internal server error",
-    });
+    res.status(500).send("Internal Server Error")
   }
-};
+  
+}
 
-export const readCartController = async (req, res) => {
+
+export const removeFromCartController = async (req,res) => {
   try {
-    const userId = req.user._id;
-    const userCart = await cartModel
-      .findOne({ user: userId })
-      .populate("products.product");
-      
-    if (userCart) {
-      res.status(200).json({ cart: userCart.products });
-    } else {
-      res.status(200).json({ cart: [] });
-    }
+    const {id} = req.params;
+    const {item} = req.body;
+
+    const user = await userModel.findById(id);
+
+    user.cart = user.cart.filter((i) => i._id !== item._id);
+
+    await user.save();
+
+    res.status(200).send({
+      success: true,
+      user
+    })
+    
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error")
   }
-};
+  
+}
+
+export const getCart = async (req,res) => {
+  try {
+    const {id} = req.params;
+    const user = await userModel.findById(id);
+    res.status(200).send({
+      success: true,
+      cart: user.cart
+    })
+    
+  } catch (error) {
+    res.status(500).send("Internal Server Error")
+  }
+  
+}

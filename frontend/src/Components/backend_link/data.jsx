@@ -1,1 +1,1 @@
-export const url  = 'https://monoking.onrender.com'
+export const url  = 'http://54.66.177.10:8080'

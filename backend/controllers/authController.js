@@ -120,6 +120,7 @@ export const loginController = async (req, res) => {
         phone: user.phone,
         role: user.role,
         address: "KA India",
+        altPhone: user.altPhone,
         cart: user.cart,
       },
       token,
@@ -253,7 +254,7 @@ export const getUserController = async (req, res) => {
 
 export const updateProfileController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, altPhone } = req.body;
     const user = await userModel.findById(req.user._id);
     if (name) {
       user.name = name;
@@ -268,10 +269,23 @@ export const updateProfileController = async (req, res) => {
       user.address = address;
     }
     if (phone) {
-      user.phone = phone;
+       const existingUser = await userModel.findOne({ phone });
+      if (existingUser && existingUser._id.toString() !== req.user._id.toString()) {
+        return res.status(400).send({
+          success: false,
+          message: "This phone number is already registered",
+        });
+      } else {
+        user.phone = phone;
+      }
+    }
+
+    if (altPhone) {
+      user.altPhone = altPhone;
     }
 
     await user.save();
+
     res.status(200).send({
       success: true,
       message: "Profile Updated Successfully",
@@ -303,19 +317,17 @@ export const getUsersListController = async (req, res) => {
   }
 };
 
-
-export const getRateUserListController = async(req,res) =>{
+export const getRateUserListController = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
     const user = await userModel.findById(id);
 
     res.status(200).send({
       success: true,
-      name:user.name
-    })
-    
+      name: user.name,
+    });
   } catch (error) {
-    res.status(500).send("Internal server error")
+    res.status(500).send("Internal server error");
   }
-}
+};

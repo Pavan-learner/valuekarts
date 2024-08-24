@@ -83,9 +83,9 @@ const productSchema = mongoose.Schema(
       default: 70,
     },
 
-    returnValid: {
+    returnDays: {
       type: Number,
-      default: 7,
+      default: 3,
     },
     // * This is for storing the user ratings abour admin products.
 

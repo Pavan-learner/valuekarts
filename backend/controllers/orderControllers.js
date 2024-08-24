@@ -84,14 +84,12 @@ export const updateOrderStatusController = async (req, res) => {
     }
 
     if (status === "Delivered") {
-      const returnDays = 5; // Number of days allowed for return
+      const returnDays = 3; // Number of days allowed for return
       const deliveryDate = moment(); // Assuming the order is delivered now
-      const returnExpiryDate = deliveryDate.add(returnDays, "days").toDate(); // Calculate return expiry date
-
-      console.log(returnExpiryDate);
+      const returnExpiryDate = deliveryDate.clone().add(returnDays, 'days'); // Calculate return expiry date
 
       order.deliveryDate = deliveryDate.toDate(); // Update delivery date
-      order.returnExpiryDate = returnExpiryDate; // Set the return expiry date
+      order.returnExpiryDate = returnExpiryDate.toDate(); // Set the return expiry date
     }
 
     if (status === "Return" || status === "Returned") {

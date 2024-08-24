@@ -5,7 +5,7 @@ import { measureMemory } from "vm";
 
 export const createProduct = async (req, res) => {
   try {
-    const { id, name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge } = req.fields;
+    const { id, name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge,returnDays} = req.fields;
     const { photo } = req.files;
 
     if (!name || !description || !price || !category || !stock || !shipping) {
@@ -24,7 +24,8 @@ export const createProduct = async (req, res) => {
       stock,
       shipping,
       originalPrice,
-      deliveryCharge
+      deliveryCharge,
+      returnDays
     });
 
     // Handle multiple image links
@@ -136,7 +137,7 @@ export const getProductPhoto = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { pid,name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge } = req.fields;
+    const { pid,name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge , returnDays} = req.fields;
     const { photo } = req.files;
 
     console.log(variety)
@@ -160,9 +161,10 @@ export const updateProduct = async (req, res) => {
     product.category = category;
     product.stock = stock;
     product.shipping = shipping;
-    product.id = pid;
+    product.id = pid; // * Custom ID for Product
     product.originalPrice = originalPrice;
     product.deliveryCharge = deliveryCharge;
+    product.returnDays = returnDays;
 
     // Handle photo update
     if (photo) {

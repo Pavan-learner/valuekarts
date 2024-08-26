@@ -23,10 +23,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello from your Node.js backend!');
-});
-
 // Default routes
 app.use("/api/v2/auth", authRoutes);
 app.use("/api/v2/category", categoryRoutes);

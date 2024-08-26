@@ -20,7 +20,7 @@ router.post('/send-mail', async (req,res) =>{
     });
     
     const productDetails = products.map(product => 
-      `<li>${product.id} - ${product.name} - Quantity: ${product.qty}, Price: Rs.${product.price} , Variety: ${product.selectedVariety}</li>`
+      `<li>${product.id} - ${product.name} - Quantity: ${product.qty}, Price: Rs.${product.selectedVariety.price} , Variety: ${product.selectedVariety.name}</li>`
     ).join('');
     
     // Set up email data

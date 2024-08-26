@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const productSchema = mongoose.Schema(
   {
     id: {
-      type: Number,
+      type:String,
     },
 
     name: {
@@ -46,10 +46,12 @@ const productSchema = mongoose.Schema(
       default: [],
     },
 
-    variety: {
-      type: [String], // Array of strings
-      default: [],
-    },
+    variety: [
+      {
+        name: { type: String },
+        price: { type: Number },
+      },
+    ],
 
     // * this is for user purpose
     qty: {
@@ -85,7 +87,12 @@ const productSchema = mongoose.Schema(
 
     returnDays: {
       type: Number,
-      default: 3,
+      default: 0,
+    },
+
+    replacementDays: {
+      type: Number,
+      default: 0,
     },
     // * This is for storing the user ratings abour admin products.
 

@@ -1,11 +1,24 @@
 import slugify from "slugify";
 import productModel from "../models/productModel.js";
 import fs from "fs";
-import { measureMemory } from "vm";
 
 export const createProduct = async (req, res) => {
   try {
-    const { id, name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge,returnDays} = req.fields;
+    const {
+      id,
+      name,
+      description,
+      price,
+      category,
+      stock,
+      shipping,
+      imgLink,
+      variety,
+      originalPrice,
+      deliveryCharge,
+      returnDays,
+      replacementDays ,
+    } = req.fields;
     const { photo } = req.files;
 
     if (!name || !description || !price || !category || !stock || !shipping) {
@@ -25,15 +38,16 @@ export const createProduct = async (req, res) => {
       shipping,
       originalPrice,
       deliveryCharge,
-      returnDays
+      returnDays,
+      replacementDays,
     });
 
     // Handle multiple image links
     if (imgLink) {
       try {
         const parsedLinks = JSON.parse(imgLink);
-         // Parse the stringified array
-         product.imgLink = parsedLinks;
+        // Parse the stringified array
+        product.imgLink = parsedLinks;
       } catch (error) {
         return res.status(400).send({ message: "Invalid imgLink format" });
       }
@@ -71,7 +85,6 @@ export const createProduct = async (req, res) => {
     res.status(400).send({ message: "Error while creating product" });
   }
 };
-
 
 export const getProducts = async (req, res) => {
   try {
@@ -137,11 +150,25 @@ export const getProductPhoto = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { pid,name, description, price, category, stock, shipping, imgLink, variety,originalPrice,deliveryCharge , returnDays} = req.fields;
+    const {
+      pid,
+      name,
+      description,
+      price,
+      category,
+      stock,
+      shipping,
+      imgLink,
+      variety,
+      originalPrice,
+      deliveryCharge,
+      returnDays,
+      replacementDays
+    } = req.fields;
     const { photo } = req.files;
 
-    console.log(variety)
     // Find the product by ID
+
     const product = await productModel.findById(id);
 
     if (!product) {
@@ -150,7 +177,9 @@ export const updateProduct = async (req, res) => {
 
     // Check for required fields
     if (!name || !description || !price || !category || !stock || !shipping) {
-      return res.status(400).send({ error: "All required fields must be filled" });
+      return res
+        .status(400)
+        .send({ error: "All required fields must be filled" });
     }
 
     // Update product fields
@@ -165,11 +194,15 @@ export const updateProduct = async (req, res) => {
     product.originalPrice = originalPrice;
     product.deliveryCharge = deliveryCharge;
     product.returnDays = returnDays;
+    product.replacementDays = replacementDays;
 
     // Handle photo update
     if (photo) {
-      if (photo.size > 1000000) { // Example size check
-        return res.status(400).send({ message: "Photo size should be less than 1MB" });
+      if (photo.size > 1000000) {
+        // Example size check
+        return res
+          .status(400)
+          .send({ message: "Photo size should be less than 1MB" });
       }
       product.photo.data = fs.readFileSync(photo.path);
       product.photo.contentType = photo.type;
@@ -182,9 +215,14 @@ export const updateProduct = async (req, res) => {
 
     // Handle variety
     if (variety) {
-      try { // Ensure variety is parsed correctly
-        product.variety = JSON.parse(variety);
-         // Replace existing varieties
+      try {
+        const parsedVariety = JSON.parse(variety);
+
+
+        product.variety = parsedVariety;
+        console.log("The parsed variety is:", parsedVariety);
+
+        // Replace existing varieties
       } catch (error) {
         return res.status(400).send({ message: "Invalid variety format" });
       }
@@ -192,6 +230,7 @@ export const updateProduct = async (req, res) => {
 
     // Save updated product
     await product.save();
+
     res.status(200).send({
       success: true,
       message: "Product updated successfully",
@@ -199,7 +238,9 @@ export const updateProduct = async (req, res) => {
     });
   } catch (error) {
     console.error(error); // Log the error for debugging
-    res.status(400).send({ message: "Something went wrong while updating the product" });
+    res
+      .status(400)
+      .send({ message: "Something went wrong while updating the product" });
   }
 };
 
@@ -256,7 +297,7 @@ export const getSectionOneProducts = async (req, res) => {
       .populate("category")
       .sort({ createdAt: -1 }) // Sorting by `createdAt` in ascending order
       .limit(8); // Limiting to 8 products
-       // Debugging line
+    // Debugging line
     res.json(products);
   } catch (error) {
     console.error(error); // Log the error for debugging
@@ -273,7 +314,6 @@ export const getSectionTwoProducts = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
 
 // * function for pagination products.
 export const getkProducts = async (req, res) => {
@@ -295,10 +335,9 @@ export const getkProducts = async (req, res) => {
   });
 };
 
-
 // * function for sending the products based on the category.
 
-export const getCategoryProducts = async(req,res) =>{
+export const getCategoryProducts = async (req, res) => {
   try {
     const { id } = req.params;
     const products = await productModel.find({ category: id });
@@ -306,43 +345,43 @@ export const getCategoryProducts = async(req,res) =>{
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 // * route for custom id search for the products
 
-export const searchAdminProducts = async(req,res) =>{
+export const searchAdminProducts = async (req, res) => {
   try {
-    const {id}  = req.body;
+    const { id } = req.body;
 
-    const product = await productModel.find({id:id})
+    const product = await productModel.find({ id: id });
 
     res.status(200).json(product);
-    
   } catch (error) {
     res.status(500).send({
-      success:"false",
-      message:"Internal Server error"
-    })
+      success: "false",
+      message: "Internal Server error",
+    });
   }
-}
-
+};
 
 // * this method is for showing the suggestion in the search bar
-export const getSuggestProducts = async (req,res) =>{
+export const getSuggestProducts = async (req, res) => {
   try {
-      const keyword = req.params.keyword;
-      const suggestions = await productModel.find({
-          name: { $regex: keyword, $options: 'i' }
-      }).select('name').limit(10); // Limit the number of suggestions
+    const keyword = req.params.keyword;
+    const suggestions = await productModel
+      .find({
+        name: { $regex: keyword, $options: "i" },
+      })
+      .select("name")
+      .limit(10); // Limit the number of suggestions
 
-      const suggestionList = suggestions.map(product => product.name);
+    const suggestionList = suggestions.map((product) => product.name);
 
-      res.status(200).json(suggestionList);
-
+    res.status(200).json(suggestionList);
   } catch (error) {
     res.status(500).send({
-      success:false,
-      message:"Internal Server error"
-    })
+      success: false,
+      message: "Internal Server error",
+    });
   }
-}
+};

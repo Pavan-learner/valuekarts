@@ -4,6 +4,7 @@ const productSchema = mongoose.Schema(
   {
     id: {
       type:String,
+      unique:true
     },
 
     name: {

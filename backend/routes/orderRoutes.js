@@ -1,5 +1,5 @@
 import express from 'express';
-import { cancelOrderController, createOrderController, getAdminOrderController, getOrderDetailController, getOrdersController, rateProductBasedOnOrderController, returnOrderController, updateOrderStatusController } from '../controllers/orderControllers.js';
+import { cancelOrderController, createOrderController, getAdminOrderController, getOrderDetailController, getOrdersController, rateProductBasedOnOrderController, replacementOrderController, returnOrderController, updateOrderStatusController } from '../controllers/orderControllers.js';
 import { isAdmin, requireSignin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -17,6 +17,8 @@ router.put('/update-order-status/:id',requireSignin,isAdmin,updateOrderStatusCon
 router.put('/cancel-order/:id',requireSignin,cancelOrderController);
 
 router.put('/return-order/:id',requireSignin,returnOrderController);
+
+router.put('/replacement-order/:id',requireSignin,replacementOrderController);
 
 router.post('/rate/:orderId',requireSignin,rateProductBasedOnOrderController);
 

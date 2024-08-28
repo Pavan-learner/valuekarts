@@ -41,6 +41,14 @@ const orderSchema = new mongoose.Schema(
       type: Number,
     },
 
+    replacementDays: {
+      type: Number,
+    },
+
+    replacementExpiryDate: {
+      type: Date,
+    },
+
     total: {
       type: Number,
       required: true, // Consider adding this field if you want to store the total price
@@ -54,6 +62,7 @@ const orderSchema = new mongoose.Schema(
         "Processing",
         "Shipped",
         "Delivered",
+        "Replacement",
         "Cancelled",
         "Return",
         "Returned",

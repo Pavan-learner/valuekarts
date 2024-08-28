@@ -385,3 +385,16 @@ export const getSuggestProducts = async (req, res) => {
     });
   }
 };
+
+
+export const getCustomProductId = async (req,res) =>{
+  try {
+    
+    const products = await productModel.find({}, 'id');
+    const ids = products.map(product => product.id);
+    res.json({ success: true, data: ids });
+    
+  } catch (error) {
+    res.status(500).send("Internal Server Error")
+  }
+}

@@ -1,7 +1,7 @@
 import express from "express";
 import { isAdmin, requireSignin } from "../middleware/authMiddleware.js";
 import formidable from 'express-formidable';
-import { createProduct, deleteProduct, getCategoryProducts, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct, deleteProduct, getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 const router = express.Router();    
 
@@ -32,9 +32,12 @@ router.get('/get-k-products',getkProducts);
 router.get('/get-product-by-category/:id',getCategoryProducts);
 
 
-// * This function is used to search the products for the admin by the id
+// * This function is used to search the products for the admin by the customid
 router.post('/search-admin-product',requireSignin,isAdmin ,searchAdminProducts);
 
+// * this router is for checking the existing product custom id
+
+router.get('/get-customid',requireSignin,isAdmin,getCustomProductId);
 
 // * this route is used for suggesting the products on the search bar.
 router.get('/suggest-product/:keyword',getSuggestProducts);

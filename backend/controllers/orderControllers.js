@@ -23,7 +23,7 @@ export const getOrdersController = async (req, res) => {
 
 export const createOrderController = async (req, res) => {
   try {
-    const { products, buyer, address, total, variety,returnDays } = req.body;
+    const { products, buyer, address, total, variety,returnDays,replacementDays} = req.body;
 
     // Validation
     if (!products || !buyer || !address || !total) {
@@ -33,7 +33,7 @@ export const createOrderController = async (req, res) => {
    
 
     // Creating the order
-    const order = new orderModel({ products, buyer, address, total,returnDays });
+    const order = new orderModel({ products, buyer, address, total,returnDays,replacementDays });
 
     if(variety){
       order.variety = JSON.parse(variety);
@@ -90,16 +90,18 @@ export const updateOrderStatusController = async (req, res) => {
       });
     }
 
-    console.log(order.products);
-    // let returnDays = 3; // Default return days
+
 
     if (status === "Delivered") {
       console.log("The return days are: ", order.returnDays);
       const deliveryDate = moment(); // Assuming the order is delivered now
-      const returnExpiryDate = deliveryDate.clone().add(order.returnDays, 'days'); // Calculate return expiry date
+      const returnExpiryDate = deliveryDate.clone().add(order.returnDays, 'days'); 
+      const replacementExpiryDate = deliveryDate.clone().add(order.replacementDays, 'days'); // Calculate return expiry date
 
       order.deliveryDate = deliveryDate.toDate(); // Update delivery date 
       order.returnExpiryDate = returnExpiryDate.toDate(); // Set the return expiry date
+
+      order.replacementExpiryDate = replacementExpiryDate.toDate();
     }
 
     if (status === "Return" || status === "Returned") {
@@ -181,6 +183,36 @@ export const returnOrderController = async (req, res) => {
   }
 };
 
+export const replacementOrderController = async (req,res) =>{
+  try {
+
+    const id = req.params.id;
+    const reason = req.body.reason;
+
+    const order = await orderModel.findById(id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (order.status === "Replacement") {
+      return res.status(300).json({ message: "Order is in the process of replacement " });
+    }
+
+    order.status = "Replacement";
+
+    order.reason = reason;
+
+    await order.save();
+
+    res
+      .status(200)
+      .json({ message: "Order Replacement request submitted successfully", order });
+
+    
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 export const rateProductBasedOnOrderController = async (req, res) => {
   try {
     const { orderId } = req.params;

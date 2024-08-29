@@ -9,9 +9,6 @@ const userModel = new mongoose.Schema(
     },
     email: {
       type: String,
-      // required: true,
-      // these helps to login only one user with one email
-      unique: true,
     },
 
     password: {
@@ -20,10 +17,10 @@ const userModel = new mongoose.Schema(
     },
     phone: {
       type: String,
-      // required: true,
+      unique: true,
     },
-    altPhone:{
-        type: String,
+    altPhone: {
+      type: String,
     },
 
     address: {

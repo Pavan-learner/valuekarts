@@ -7,8 +7,11 @@ import axios from "axios";
 export const registerController = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
-    // validation
-    if ((!phone || !email) && !password && !name) {
+
+
+    console.log(name, email, password, phone);
+
+    if ((!phone && !email) || !password || !name) {
       return res.send({ message: "All fields are required" });
     }
 
@@ -16,16 +19,21 @@ export const registerController = async (req, res) => {
 
     if (email) {
       const existingUser = await userModel.findOne({ email });
+
+      console.log("User with mail = ",existingUser);
+
       if (existingUser) {
-        return res.status(200).send({
+        return res.status(300).send({
           success: false,
           message: "User already exists",
         });
       }
     } else if (phone) {
       const existingPhone = await userModel.findOne({ phone });
+
+      console.log("User with phone = ",existingPhone);
       if (existingPhone) {
-        return res.status(200).send({
+        return res.status(300).send({
           success: false,
           message: "User already exists",
         });
@@ -67,12 +75,12 @@ export const registerController = async (req, res) => {
       token,
     });
   } catch (error) {
-    // console.log(error);
-    res.status(400).send({
-      success: false,
-      message: error.message,
-      error,
-    });
+    console.error("Error during user registration:", error);
+  res.status(400).send({
+    success: false,
+    message: "Registration failed",
+    error: error.message,
+  });
   }
 };
 
@@ -269,8 +277,11 @@ export const updateProfileController = async (req, res) => {
       user.address = address;
     }
     if (phone) {
-       const existingUser = await userModel.findOne({ phone });
-      if (existingUser && existingUser._id.toString() !== req.user._id.toString()) {
+      const existingUser = await userModel.findOne({ phone });
+      if (
+        existingUser &&
+        existingUser._id.toString() !== req.user._id.toString()
+      ) {
         return res.status(400).send({
           success: false,
           message: "This phone number is already registered",

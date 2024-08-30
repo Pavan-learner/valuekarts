@@ -7,8 +7,8 @@ const labourSchema = new mongoose.Schema({
     },
 
     image: {
-        type: String,
-        default:""
+        type: [String],
+        default:[],
     },
 
 }

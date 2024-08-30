@@ -9,8 +9,6 @@ export const registerController = async (req, res) => {
     const { name, email, password, phone } = req.body;
 
 
-    console.log(name, email, password, phone);
-
     if ((!phone && !email) || !password || !name) {
       return res.send({ message: "All fields are required" });
     }
@@ -19,8 +17,6 @@ export const registerController = async (req, res) => {
 
     if (email) {
       const existingUser = await userModel.findOne({ email });
-
-      console.log("User with mail = ",existingUser);
 
       if (existingUser) {
         return res.status(300).send({
@@ -31,7 +27,6 @@ export const registerController = async (req, res) => {
     } else if (phone) {
       const existingPhone = await userModel.findOne({ phone });
 
-      console.log("User with phone = ",existingPhone);
       if (existingPhone) {
         return res.status(300).send({
           success: false,
@@ -75,7 +70,7 @@ export const registerController = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.error("Error during user registration:", error);
+
   res.status(400).send({
     success: false,
     message: "Registration failed",
@@ -84,7 +79,7 @@ export const registerController = async (req, res) => {
   }
 };
 
-// * Login Handler
+// * Login Handler 
 export const loginController = async (req, res) => {
   try {
     const { email, phone, password } = req.body;

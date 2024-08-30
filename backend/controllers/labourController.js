@@ -6,8 +6,12 @@ export const createLabour = async (req, res) => {
 
     const labour = await labourModel.create({
       name,
-      image,
     });
+
+    labour.image = JSON.parse(image);
+
+
+    await labour.save();
 
     res
       .status(200)
@@ -41,7 +45,19 @@ export const updateLabour = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, image } = req.body;
-    await labourModel.findByIdAndUpdate(id, { name, image });
+
+    const labour = await labourModel.findById(id);
+
+
+    labour.name = name;
+
+    if (image) {
+      const prasedData = JSON.parse(image);
+      labour.image = prasedData;
+    }
+
+    await labour.save();
+
     res.status(200).send({ message: "Labour updated successfully" });
   } catch (error) {
     res.status(500).send({ message: "Internal server error" });
